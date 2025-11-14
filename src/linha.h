@@ -53,11 +53,6 @@ char* getCorLinha(linha l);
 /// @return Um double da área da linha
 double calcAreaLinha(linha l);
 
-/// @brief Calcula a cor complementar do linha
-/// @param cor String com a cor do linha
-/// @return Uma string da cor complementar do linha
-char* calcCorComplementarLinha(char *cor);
-
 /// @brief Define o id da linha
 /// @param l Ponteiro para a linha que o id será pego
 /// @param id Id da linha que será definida
@@ -89,6 +84,11 @@ void setY2Linha(linha l, double y2);
 /// @param l Ponteiro para a linha que a cor será definida
 /// @param cor Cor da linha que será definida
 void setCorLinha(linha l, char *cor);
+
+/// @brief Calcula e define a cor complementar da linha
+/// @param l Ponteiro para a linha que a cor será definida
+/// @param cor String com a cor do linha
+void setCorComplementarLinha(linha l, char *cor);
 
 /// @brief Libera a memória alocada da linha
 /// @param l Ponteiro para a linha que a memória será liberada

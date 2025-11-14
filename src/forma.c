@@ -62,5 +62,35 @@ double getYForma(forma f, int tipoForma){
 }
 
 void setCorBForma(forma f, int tipoForma, char* corB){
-    
+    switch (tipoForma){
+        case 1:
+            setCorBRetangulo(f, corB);
+            break;
+        case 2:
+            setCorBCirculo(f, corB);
+            break;
+        case 3: 
+            setCorLinha(f, corB);
+            break;
+        case 4:
+            setCorBTexto(f, corB);
+            break;
+    }
+}
+
+void setCorPForma(forma f, int tipoForma, char* corP){
+    switch (tipoForma){
+        case 1:
+            setCorPRetangulo(f, corP);
+            break;
+        case 2:
+            setCorPCirculo(f, corP);
+            break;
+        case 3: 
+            calcCorComplementarLinha(f);
+            break;
+        case 4:
+            setCorBTexto(f, corP);
+            break;
+    }
 }

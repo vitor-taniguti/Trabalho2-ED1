@@ -7,7 +7,7 @@
 typedef struct lin{
     int i;
     double x1, y1, x2, y2;
-    char *cor;
+    char *cor, *comp;
 } lin;
 
 linha criarLinha(int i, double x1, double y1, double x2, double y2, char *cor){
@@ -63,21 +63,6 @@ double calcAreaLinha(linha l){
     return 2*sqrt(pow(x1-x2, 2)+pow(y1-y2, 2));
 }
 
-char* calcCorComplementarLinha(char *cor){
-    int r, g, b;
-    char *comp = malloc(8*sizeof(char));
-    if (cor[0] == '#')
-        sscanf(cor + 1, "%2x%2x%2x", &r, &g, &b);
-    else
-        sscanf(cor, "%2x%2x%2x", &r, &g, &b);
-
-    r = 255 - r;
-    g = 255 - g;
-    b = 255 - b;
-    sprintf(comp, "#%02X%02X%02X", r, g, b);
-    return comp;
-}
-
 void setIdLinha (linha l, int id){
     ((lin*)l)->i = id;
 }
@@ -109,9 +94,28 @@ void setCorLinha(linha l, char *cor){
     strcpy(ll->cor, cor);
 }
 
+void setCorComplementarLinha(linha l){
+    lin *ll = (lin*)l;
+    int r, g, b;
+    char *comp = malloc(8*sizeof(char));
+    char *cor = ll->cor;
+    if (cor[0] == '#')
+        sscanf(cor + 1, "%2x%2x%2x", &r, &g, &b);
+    else
+        sscanf(cor, "%2x%2x%2x", &r, &g, &b);
+
+    r = 255 - r;
+    g = 255 - g;
+    b = 255 - b;
+    sprintf(comp, "#%02X%02X%02X", r, g, b);
+    if (ll->comp != NULL) free(ll->comp);
+    ll->comp = comp;
+}
+
 void liberarLinha(linha l){
     if (l == NULL) return;
     lin *ll = (lin*)l;
-    free(ll->cor);
+    if (ll->cor != NULL) free(ll->cor);
+    if (ll->comp != NULL) free(ll->comp);
     free(ll);
 }

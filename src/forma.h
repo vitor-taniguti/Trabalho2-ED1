@@ -37,6 +37,6 @@ void setCorBForma(forma f, int tipoForma, char* corB);
 /// @param f Ponteiro para a forma que a cor será definida
 /// @param tipoForma Tipo da forma que a cor será definida
 /// @param corP String contendo a cor de borda a ser definida
-char* setCorPForma(forma f, int tipoForma, char* corP);
+void setCorPForma(forma f, int tipoForma, char* corP);
 
 #endif
