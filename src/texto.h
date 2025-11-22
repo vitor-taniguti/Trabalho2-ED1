@@ -93,11 +93,6 @@ char* getSize(tipoTexto tt);
 /// @return Um double da área do texto
 double calcAreaTexto(texto t);
 
-/// @brief Calcula os pontos de começo e de fim do texto para a colisão
-/// @param t Ponteiro para o texto que as coordenas X1 e X2 serão definidas
-/// @param a Âncora do texto
-void setX1X2Texto(texto t, char a);
-
 /// @brief Define o id do texto
 /// @param t Ponteiro para o texto que o id será definido
 /// @param id Id do texto que será definido 

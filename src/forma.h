@@ -5,6 +5,7 @@
 #include "retangulo.h"
 #include "linha.h"
 #include "texto.h"
+#include "anteparos.h"
 #include <math.h>
 
 typedef void* forma;
@@ -38,5 +39,12 @@ void setCorBForma(forma f, int tipoForma, char* corB);
 /// @param tipoForma Tipo da forma que a cor será definida
 /// @param corP String contendo a cor de borda a ser definida
 void setCorPForma(forma f, int tipoForma, char* corP);
+
+/// @brief Transforma um círculo em anteparo
+/// @param f Ponteiro para a forma que será transformada em anteparo 
+/// @param tipoForma Tipo da forma que será transformada em anteparo (1-Retângulo, 2-Círculo, 3-Linha, 4-Texto)
+/// @param oreitacao Caractere que identifica se o círculo será transformado em um anteparo na vertical (v) ou na horizontal (h)
+/// @return Um ponteiro para o anteparo criado
+anteparo transformarFormaAnteparo(forma f, int tipoForma, char orientacao);
 
 #endif

@@ -14,10 +14,12 @@ typedef void* anteparo;
 /// @return Um ponteiro para o anteparo criado
 anteparo criarAnteparo(double x1, double y1, double x2, double y2, char* cor);
 
-/// @brief Transforma um círculo em anteparo
-/// @param f Ponteiro para a forma que será transformada em anteparo 
-/// @param tipoForma Tipo da forma que será transformada em anteparo (1-Retângulo, 2-Círculo, 3-Linha, 4-Texto)
-/// @return Um ponteiro para o anteparo criado
-anteparo transformarFormaAnteparo(forma f, int tipoForma);
+anteparo* transformarRetangulo(forma f);
+
+anteparo transformarCirculo(forma f, char orientacao);
+
+anteparo transformarLinha(forma f);
+
+anteparo transformarTexto(forma f);
 
 #endif

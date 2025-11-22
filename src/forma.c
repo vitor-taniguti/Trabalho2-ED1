@@ -94,3 +94,20 @@ void setCorPForma(forma f, int tipoForma, char* corP){
             break;
     }
 }
+
+anteparo transformarFormaAnteparo(forma f, int tipoForma, char orientacao){
+    switch (tipoForma){
+        case 1:
+            transformarRetangulo(f);
+            break;
+        case 2:
+            transformarCirculo(f, orientacao);
+            break;
+        case 3:
+            transformarLinha(f);
+            break;
+        case 4:
+            transformarTexto(f);
+            break;
+    }
+}

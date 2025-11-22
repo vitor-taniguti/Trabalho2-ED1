@@ -87,8 +87,7 @@ void setCorLinha(linha l, char *cor);
 
 /// @brief Calcula e define a cor complementar da linha
 /// @param l Ponteiro para a linha que a cor será definida
-/// @param cor String com a cor do linha
-void setCorComplementarLinha(linha l, char *cor);
+void setCorComplementarLinha(linha l);
 
 /// @brief Libera a memória alocada da linha
 /// @param l Ponteiro para a linha que a memória será liberada

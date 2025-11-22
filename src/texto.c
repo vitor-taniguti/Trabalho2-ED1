@@ -76,6 +76,19 @@ texto criarTexto(int i, double x, double y, char *corb, char *corp, char a, char
         exit(1);
     }
     strcpy(t->txto, txto);
+    switch(a){
+        case 'i':
+            t->x1 = t->xt;
+            t->x2 = t->xt + 10*strlen(t->txto);
+            break;
+        case 'f':
+            t->x1 = t->xt - 10*strlen(t->txto);
+            t->x2 = t->xt;
+            break;
+        case 'm':
+            t->x1 = t->xt - 5*strlen(t->txto);
+            t->x2 = t->xt + 5*strlen(t->txto);
+    }
     return ((txt*)t);
 }
 
@@ -130,23 +143,6 @@ char* getSize(tipoTexto tt){
 double calcAreaTexto(texto t){
     txt *text = ((txt*)t);
     return 20*strlen(text->txto);
-}
-
-void setX1X2Texto(texto t, char a){
-    txt *texto = (txt*)t;
-    switch(a){
-        case 'i':
-            texto->x1 = texto->xt;
-            texto->x2 = texto->xt + 10*strlen(texto->txto);
-            break;
-        case 'f':
-            texto->x1 = texto->xt - 10*strlen(texto->txto);
-            texto->x2 = texto->xt;
-            break;
-        case 'm':
-            texto->x1 = texto->xt - 5*strlen(texto->txto);
-            texto->x2 = texto->xt + 5*strlen(texto->txto);
-    }
 }
 
 void setIdTexto(texto t, int id){
