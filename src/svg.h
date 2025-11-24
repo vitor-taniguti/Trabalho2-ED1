@@ -7,7 +7,6 @@
 #include "circulo.h"
 #include "linha.h"
 #include "texto.h"
-#include "disparador.h"
 
 /*
 Módulo responsável por gerenciar a criação e escrita dos arquivos com final .svg.
@@ -52,13 +51,6 @@ void inserirTextoSVG(arquivo saida, texto txt, tipoTexto tt);
 /// @param x Coordenada X do asterisco
 /// @param y Coordenada Y do asterisco
 void inserirAsteriscoSVG(arquivo saida, double x, double y);
-
-/// @brief Printa as dimensoes do disparo
-/// @param d Ponteiro para o disparador
-/// @param dx Distância X em relação ao disparador
-/// @param dy Distância Y em relação ao disparador
-/// @param saida Ponteiro para o arquivo de saída
-void inserirDimensoesDisparo(disparador d, double dx, double dy, arquivo saida);
 
 /// @brief Adiciona a tag final do arquivo SVG
 /// @param saida Ponteiro para o arquivo de saída

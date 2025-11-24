@@ -1,9 +1,6 @@
-#include "retangulo.h"
-#include "circulo.h"
-#include "linha.h"
-#include "texto.h"
-#include "carregador.h"
-#include "disparador.h"
+#include "forma.h"
+#include "lista.h"
+#include "arvore.h"
 #include "geo.h"
 #include "qry.h"
 #include "txt.h"
@@ -89,7 +86,8 @@ int main(int argc, char *argv[]) {
     abrirArquivoSvg(&svgGeo, arquivoSaidaSvgGeo);
     inicializarSVG(svgGeo);
 
-
+    lista listaFormas = criarLista();
+    arvore segAtivos = criarArvore();
 
     tipoTexto tt = criarTipoTexto("Arial, sans-serif", "normal", "12px");
 

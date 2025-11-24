@@ -6,8 +6,7 @@
 #include "circulo.h"
 #include "linha.h"
 #include "texto.h"
-#include "fila.h"
-#include "disparador.h"
+#include "lista.h"
 
 #define max_fonte 64
 #define max_cor 8

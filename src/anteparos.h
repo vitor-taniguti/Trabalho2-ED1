@@ -34,4 +34,8 @@ anteparo transformarLinha(forma f);
 /// @return Um ponteiro para o anteparo criado
 anteparo transformarTexto(forma f);
 
+/// @brief Libera o anteparo
+/// @param a Ponteiro para o anteparo que será liberado
+void liberarAnteparo(anteparo a);
+
 #endif

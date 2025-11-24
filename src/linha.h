@@ -48,6 +48,11 @@ double getY2Linha(linha l);
 /// @return Uma string da cor da linha
 char* getCorLinha(linha l);
 
+/// @brief Pega a cor complementar da linha
+/// @param l Ponteiro para a linha que a cor complementar será pega
+/// @return Uma string da cor complementar da linha
+char* getCorCompLinha(linha l);
+
 /// @brief Calcula a área da linha
 /// @param l Ponteiro para a linha que a área será calculada
 /// @return Um double da área da linha

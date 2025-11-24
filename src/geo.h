@@ -2,7 +2,6 @@
 #define GEO_H
 
 #include <stdio.h>
-#include "disparador.h"
 
 /*
 Módulo responsável por ler o arquivo de entrada .geo criar e inserir as formas na fila do chão.

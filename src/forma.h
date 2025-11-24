@@ -10,7 +10,7 @@
 
 typedef void* forma;
 
-/// @brief Pega o id do forma solicitada
+/// @brief Pega o id da forma solicitada
 /// @param f Ponteiro para a forma que o id será pego
 /// @param tipoForma Tipo da forma que o id será pego (1-Retângulo, 2-Círculo, 3-Linha, 4-Texto)
 /// @return Um inteiro com o id da forma
@@ -40,11 +40,15 @@ void setCorBForma(forma f, int tipoForma, char* corB);
 /// @param corP String contendo a cor de borda a ser definida
 void setCorPForma(forma f, int tipoForma, char* corP);
 
-/// @brief Transforma um círculo em anteparo
-/// @param f Ponteiro para a forma que será transformada em anteparo 
-/// @param tipoForma Tipo da forma que será transformada em anteparo (1-Retângulo, 2-Círculo, 3-Linha, 4-Texto)
-/// @param oreitacao Caractere que identifica se o círculo será transformado em um anteparo na vertical (v) ou na horizontal (h)
-/// @return Um ponteiro para o anteparo criado
-anteparo transformarFormaAnteparo(forma f, int tipoForma, char orientacao);
+/// @brief Calcula a área da forma solicitada
+/// @param f Ponteiro para a forma que a área será calculada
+/// @param tipoForma Tipo da forma que a área será calculada
+/// @return Um double com a área da forma
+double calcAreaForma(forma f, int tipoForma);
+
+/// @brief Libera a forma solicitada
+/// @param f Ponteiro para a forma que será liberada
+/// @param tipoForma Tipo da forma que será liberada
+void liberarForma(forma f, int tipoForma);
 
 #endif

@@ -27,6 +27,19 @@ linha criarLinha(int i, double x1, double y1, double x2, double y2, char *cor){
         exit(1);
     }
     strcpy(l->cor, cor);
+    int r, g, b;
+    char *comp = malloc(8*sizeof(char));
+    if (cor[0] == '#'){
+        sscanf(cor + 1, "%2x%2x%2x", &r, &g, &b);
+    } else{
+        sscanf(cor, "%2x%2x%2x", &r, &g, &b);
+    }
+    r = 255 - r;
+    g = 255 - g;
+    b = 255 - b;
+    sprintf(comp, "#%02X%02X%02X", r, g, b);
+    if (l->comp != NULL) free(l->comp);
+    l->comp = comp;
     return ((lin*)l);
 }
 
@@ -52,6 +65,10 @@ double getY2Linha(linha l){
 
 char* getCorLinha(linha l){
     return ((lin*)l)->cor;
+}
+
+char* getCorCompLinha(linha l){
+    return((lin*)l)->comp;
 }
 
 double calcAreaLinha(linha l){

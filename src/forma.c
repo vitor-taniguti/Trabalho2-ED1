@@ -1,4 +1,5 @@
 #include "forma.h"
+#include "lista.h"
 
 int getIdForma(forma f, int tipoForma){
     switch (tipoForma){
@@ -15,6 +16,7 @@ int getIdForma(forma f, int tipoForma){
             return getIdTexto(f);
             break;
     }
+    return 0;
 }
 
 double getXForma(forma f, int tipoForma){
@@ -32,6 +34,7 @@ double getXForma(forma f, int tipoForma){
             return getXtTexto(f);
             break;
     }
+    return 0.0;
 }
 
 double getYForma(forma f, int tipoForma){
@@ -59,6 +62,7 @@ double getYForma(forma f, int tipoForma){
             return getYtTexto(f);
             break;
     }
+    return 0.0;
 }
 
 void setCorBForma(forma f, int tipoForma, char* corB){
@@ -95,19 +99,77 @@ void setCorPForma(forma f, int tipoForma, char* corP){
     }
 }
 
-anteparo transformarFormaAnteparo(forma f, int tipoForma, char orientacao){
+double calcAreaForma(forma f, int tipoForma){
     switch (tipoForma){
         case 1:
-            transformarRetangulo(f);
+            return calcAreaRetangulo(f);
+        case 2:
+           return calcAreaCirculo(f);
+        case 3:
+            return calcAreaLinha(f);
+        case 4:
+            return calcAreaTexto(f);
+    }
+    return 0.0;
+}
+
+void clonarForma(forma f, int tipoForma, lista listaFormas){
+    forma formaNova;
+    int id = getMaiorId(listaFormas) + 1;
+    double x, y, w, h, r, x2, y2;
+    char *corP, *corB, a, *txto;
+    switch (tipoForma){
+        case 1:
+            x = getXRetangulo(f);
+            y = getYRetangulo(f);
+            w = getWRetangulo(f);
+            h = getHRetangulo(f);
+            corP = getCorPRetangulo(f);
+            corB = getCorBRetangulo(f);
+            formaNova = criarRetangulo(id, x, y, w, h, corB, corP);
             break;
         case 2:
-            transformarCirculo(f, orientacao);
+            x = getXCirculo(f);
+            y = getYCirculo(f);
+            r = getRCirculo(f);
+            corP = getCorPCirculo(f);
+            corB = getCorBCirculo(f);
+            formaNova = criarCirculo(id, x, y, r, corB, corP);
             break;
         case 3:
-            transformarLinha(f);
+            x = getX1Linha(f);
+            y = getY1Linha(f);
+            x2 = getX2Linha(f);
+            y2 = getY2Linha(f);
+            corB = getCorLinha(f);
+            formaNova = criarLinha(id, x, y, x2, y2, corB);
             break;
         case 4:
-            transformarTexto(f);
+            x = getXtTexto(f);
+            y = getYtTexto(f);
+            a = getATexto(f);
+            corP = getCorPTexto(f);
+            corB = getCorBTexto(f);
+            txto = getTxtoTexto(f);
+            formaNova = criarTexto(id, x, y, corB, corP, a, txto);
+            break;
+    }
+    inserirLista(listaFormas, formaNova, tipoForma);
+}
+
+void liberarForma(forma f, int tipoForma){
+    switch (tipoForma){
+        case 1:
+            liberarRetangulo(f);
+            break;
+        case 2:
+            liberarCirculo(f);
+            break;
+        case 3:
+            liberarLinha(f);
+            break;
+        case 4:
+            liberarTexto(f);
             break;
     }
 }
