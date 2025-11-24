@@ -89,10 +89,7 @@ int main(int argc, char *argv[]) {
     abrirArquivoSvg(&svgGeo, arquivoSaidaSvgGeo);
     inicializarSVG(svgGeo);
 
-    fila chao = criarFila();
-    fila arena = criarFila();
-    fila disparadores = criarFila();
-    fila carregadores = criarFila();
+
 
     tipoTexto tt = criarTipoTexto("Arial, sans-serif", "normal", "12px");
 
@@ -107,10 +104,7 @@ int main(int argc, char *argv[]) {
         fecharSVG(svgQry);
     }
 
-    liberarFila(chao);
-    liberarFila(arena);
-    liberarFila(disparadores);
-    liberarFila(carregadores);
+
     liberarTipoTexto(tt);
 
     if (geo) fclose(geo);

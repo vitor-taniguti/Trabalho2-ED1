@@ -14,12 +14,24 @@ typedef void* anteparo;
 /// @return Um ponteiro para o anteparo criado
 anteparo criarAnteparo(double x1, double y1, double x2, double y2, char* cor);
 
+/// @brief Transforma a forma retângulo em anteparo
+/// @param f Ponteiro para a forma retângulo
+/// @return Um ponteiro para o anteparo criado
 anteparo* transformarRetangulo(forma f);
 
+/// @brief Transforma a forma círculo em anteparo
+/// @param f Ponteiro para a forma círculo
+/// @return Um ponteiro para o anteparo criado
 anteparo transformarCirculo(forma f, char orientacao);
 
+/// @brief Transforma a forma linha em anteparo
+/// @param f Ponteiro para a forma linha
+/// @return Um ponteiro para o anteparo criado
 anteparo transformarLinha(forma f);
 
+/// @brief Transforma a forma texto em anteparo
+/// @param f Ponteiro para a forma texto
+/// @return Um ponteiro para o anteparo criado
 anteparo transformarTexto(forma f);
 
 #endif
