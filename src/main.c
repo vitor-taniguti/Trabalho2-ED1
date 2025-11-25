@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
     inicializarSVG(svgGeo);
 
     lista listaFormas = criarLista();
-    arvore segAtivos = criarArvore();
+    lista listaAnteparos = criarLista();
 
     tipoTexto tt = criarTipoTexto("Arial, sans-serif", "normal", "12px");
 

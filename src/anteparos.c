@@ -32,7 +32,6 @@ anteparo* transformarRetangulo(forma f){
     arrayAnteparos[1] = (Anteparo*) criarAnteparo(id, x+w, y, x+w, y+h, cor);
     arrayAnteparos[2] = (Anteparo*) criarAnteparo(id, x, y+h, x+w, y+h, cor);
     arrayAnteparos[3] = (Anteparo*) criarAnteparo(id, x, y, x, y+h, cor);
-    liberarRetangulo(f);
     return arrayAnteparos;
 }
 
@@ -51,7 +50,6 @@ anteparo transformarCirculo(forma f, char orientacao){
             ant = criarAnteparo(id, x, y-r, x, y+r, cor);
             break;
     }
-    liberarCirculo(f);
     return ant;
 }
 
@@ -63,7 +61,6 @@ anteparo transformarLinha(forma f){
     double y2 = getY2Linha(f);
     char* cor = getCorLinha(f);
     Anteparo* ant = criarAnteparo(id, x1, y1, x2, y2, cor);
-    liberarLinha(f);
     return ant;
 }
 
@@ -75,7 +72,6 @@ anteparo transformarTexto(forma f){
     double y2 = getYtTexto(f);
     char* cor = getCorBTexto(f);
     Anteparo* ant = criarAnteparo(id, x1, y1, x2, y2, cor);
-    liberarTexto(f);
     return ant;
 }
 

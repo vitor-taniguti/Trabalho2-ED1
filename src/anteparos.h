@@ -6,13 +6,14 @@
 typedef void* anteparo; 
 
 /// @brief Cria um anteparo com os atributos especificados
+/// @param id Identificador único do anteparo
 /// @param x1 Primeira coordenada X do anteparo
 /// @param y1 Primeira coordenada Y do anteparo
 /// @param x2 Segunda coordenada X do anteparo
 /// @param y2 Segunda coordenada Y do anteparo
 /// @param cor Cor do anteparo
 /// @return Um ponteiro para o anteparo criado
-anteparo criarAnteparo(double x1, double y1, double x2, double y2, char* cor);
+anteparo criarAnteparo(int id, double x1, double y1, double x2, double y2, char* cor);
 
 /// @brief Transforma a forma retângulo em anteparo
 /// @param f Ponteiro para a forma retângulo
@@ -33,6 +34,21 @@ anteparo transformarLinha(forma f);
 /// @param f Ponteiro para a forma texto
 /// @return Um ponteiro para o anteparo criado
 anteparo transformarTexto(forma f);
+
+/// @brief Pega o id do anteparo
+/// @param a Ponteiro para o anteparo que o id será pego
+/// @return Um inteiro com o id do anteparo
+int getIdAnteparo(anteparo a);
+
+double getX1Anteparo(anteparo a);
+
+double getY1Anteparo(anteparo a);
+
+double getX2Anteparo(anteparo a);
+
+double getY2Anteparo(anteparo a);
+
+char* getCorAnteparo(anteparo a);
 
 /// @brief Libera o anteparo
 /// @param a Ponteiro para o anteparo que será liberado

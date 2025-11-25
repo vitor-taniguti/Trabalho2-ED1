@@ -52,6 +52,11 @@ int getTipoFormaLista(iterador i);
 /// @return Um inteiro com o maior id
 int getMaiorIdLista(lista l);
 
+/// @brief Pega o tamanho da lista
+/// @param l Ponteiro para a lista onde o tamanho será pego
+/// @return Um inteiro com o tamanho da lista
+int getTamanhoLista(lista l);
+
 /// @brief Percorre pela lista e aplica uma ação a cada elemento
 /// @param l Ponteiro para a lista a ser percorrida
 /// @param svg Ponteiro para o arquivo SVG onde os elementos serão inseridos

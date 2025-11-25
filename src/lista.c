@@ -16,6 +16,7 @@ typedef struct elemento{
 typedef Elemento *pont;
 
 typedef struct{
+    int tamanho;
     pont topo;
     pont fim;
 } Lista;
@@ -28,6 +29,7 @@ lista criarLista(){
     }
     l->topo = NULL;
     l->fim = NULL;
+    l->tamanho = 0;
     return ((Lista*)l);
 }
 
@@ -50,6 +52,7 @@ void inserirLista(lista l, forma forma, int tipoForma){
         lista->fim->prox = novoElemento;     
         lista->fim = novoElemento;
     }
+    lista->tamanho++;
 }
 
 void removerLista(lista l, iterador i){
@@ -68,6 +71,7 @@ void removerLista(lista l, iterador i){
     }
     liberarForma(alvo->forma, alvo->tipoForma);
     free(alvo);
+    lista->tamanho--;
 }
 
 iterador getPrimeiroLista(lista l){
@@ -101,6 +105,26 @@ int getTipoFormaLista(iterador i){
     return e->tipoForma;
 }
 
+int getMaiorIdLista(lista l){
+    Lista* lista = ((Lista*)l);
+    Elemento* atual = lista->topo;
+    int maior = 0;
+    while (atual != NULL){
+        forma forma = getFormaLista(atual);
+        int tipoForma = getTipoFormaLista(atual);
+        int id = getIdForma(forma, tipoForma);
+        if (id > maior){
+            maior = id;
+        }
+        atual = getProximoLista(atual);
+    }
+    return maior;
+}
+
+int getTamanhoLista(lista l){
+    return ((Lista*)l)->tamanho;
+}
+
 void passarPelaLista(lista l, arquivo svg, tipoTexto tipoTexto){
     Lista *lista = ((Lista*)l);
     Elemento *elementoAtual = lista->topo;
@@ -125,6 +149,8 @@ void selecionarAcaoLista(forma forma, int tipoForma, arquivo svg, tipoTexto tipo
         case 4:
             inserirTextoSVG(svg, forma, tipoTexto);
             break;
+        case 5:
+            inserirLinhaSVG(svg, forma);
         default:
             break;
     }

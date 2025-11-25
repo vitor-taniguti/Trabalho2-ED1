@@ -22,7 +22,6 @@ void abrirArquivoQry(arquivo *qry, char *caminhoQry);
 /// @param txt Arquivo com extensao .txt que será usado
 /// @param svg Aquivo com extensao .svg que será usado
 /// @param listaFormas Lista contendo todas as formas
-/// @param anteparos Ponteiro para a árvore dos anteparos
-void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, lista listaFormas, arvore anteparos);
+void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, lista listaFormas, lista listaAnteparos);
 
 #endif
