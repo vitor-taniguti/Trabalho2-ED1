@@ -91,17 +91,16 @@ int main(int argc, char *argv[]) {
 
     tipoTexto tt = criarTipoTexto("Arial, sans-serif", "normal", "12px");
 
-    lerArquivoGeo(geo, chao, tt);
+    lerArquivoGeo(geo, listaFormas, tt);
 
-    passarPelaFila(chao, svgGeo, tt);
+    passarPelaLista(listaFormas, svgGeo, tt);
     fecharSVG(svgGeo);
 
     if (hasQry) {
-        lerArquivoQry(qry, txt, svgQry, chao, arena, disparadores, carregadores);
-        passarPelaFila(chao, svgQry, tt);
+        lerArquivoQry(qry, txt, svgQry, listaFormas, listaAnteparos, dirSaida, nomeArquivoGeo);
+        passarPelaLista(listaFormas, svgQry, tt);
         fecharSVG(svgQry);
     }
-
 
     liberarTipoTexto(tt);
 

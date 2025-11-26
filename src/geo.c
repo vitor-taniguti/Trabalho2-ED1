@@ -20,7 +20,7 @@ void abrirArquivoGeo(arquivo *geo, char *caminhoGeo){
     }
 }
 
-void lerArquivoGeo(arquivo geo, fila f, tipoTexto tt){
+void lerArquivoGeo(arquivo geo, lista formas, tipoTexto tt){
     if (geo == NULL){
         printf("Arquivo não foi aberto!");
         return;
@@ -33,11 +33,11 @@ void lerArquivoGeo(arquivo geo, fila f, tipoTexto tt){
             i++;
         }
         tipoForma[i] = '\0';
-        processarLinhaFormas(linha, tipoForma, f, tt);
+        processarLinhaFormas(linha, tipoForma, formas, tt);
     }
 }
 
-void processarLinhaFormas(char *linha, char *tipoForma, fila f, tipoTexto tt){
+void processarLinhaFormas(char *linha, char *tipoForma, lista formas, tipoTexto tt){
     char corb[max_cor] = {0}, corp[max_cor] = {0}, cor[max_cor] = {0};
     char font[max_fonte] = {0}, size[max_fonte] = {0}, weight[max_fonte] = {0};
     char txto[max_texto] = {0}, type[3] = {0};
@@ -46,16 +46,16 @@ void processarLinhaFormas(char *linha, char *tipoForma, fila f, tipoTexto tt){
     char a = '\0';
     if (strcmp(tipoForma, "r") == 0){
         sscanf(linha, "%2s %d %lf %lf %lf %lf %7s %7s", type, &id, &x, &y, &w, &h, corb, corp); 
-        inserirFila(f, criarRetangulo(id, x, y, w, h, corb, corp), 1);
+        inserirLista(formas, criarRetangulo(id, x, y, w, h, corb, corp), 1);
     }  else if (strcmp(tipoForma, "c") == 0){
         sscanf(linha, "%2s %d %lf %lf %lf %7s %7s", type, &id, &x, &y, &r, corb, corp);
-        inserirFila(f, criarCirculo(id, x, y, r, corb, corp), 2);
+        inserirLista(formas, criarCirculo(id, x, y, r, corb, corp), 2);
     } else if (strcmp(tipoForma, "l") == 0){
         sscanf(linha, "%2s %d %lf %lf %lf %lf %7s", type, &id, &x, &y, &x2, &y2, cor);
-        inserirFila(f, criarLinha(id, x, y, x2, y2, cor), 3);
+        inserirLista(formas, criarLinha(id, x, y, x2, y2, cor), 3);
     } else if (strcmp(tipoForma, "t") == 0) {
         sscanf(linha, "%2s %d %lf %lf %7s %7s %c %1023[^\n]", type, &id, &x, &y, corb, corp, &a, txto);
-        inserirFila(f, criarTexto(id, x, y, corb, corp, a, txto), 4);
+        inserirLista(formas, criarTexto(id, x, y, corb, corp, a, txto), 4);
     } else if (strcmp(tipoForma, "ts") == 0){
         sscanf(linha, "%2s %255s %1s %255s", type, font, weight, size);
         setFamily(tt, font);
