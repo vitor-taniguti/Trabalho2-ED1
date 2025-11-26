@@ -1,5 +1,6 @@
 #include "poligono.h"
 #include <math.h>
+#include <float.h>
 
 #define inicio 1
 #define fim 2
@@ -21,6 +22,7 @@ typedef struct poligono{
     Ponto* pontos;
     int totalPontos;
     int capacidade;
+    double minX, minY, maxX, maxY;
 } Poligono;
 
 double calcularDistancia(double x1, double y1, double x2, double y2){
@@ -68,7 +70,7 @@ Vertice* criarArrayVertices(lista listaAnteparos, double x, double y){
     return vertices;
 }
 
-int compararVertices(const void* a, const void* b) {
+int compararVertices(const void* a, const void* b){
     Vertice* v1 = (Vertice*) a;
     Vertice* v2 = (Vertice*) b;
     if (v1->angulo < v2->angulo) return -1;
@@ -80,15 +82,7 @@ int compararVertices(const void* a, const void* b) {
     return 0;
 }
 
-poligono criarPoligonoVazio(){
-    Poligono* p = malloc(sizeof(Poligono));
-    p->totalPontos = 0;
-    p->capacidade = 10;
-    p->pontos = malloc(p->capacidade*(sizeof(Ponto)));
-    return (Poligono*) p;
-}
-
-void adicionarPontoPoligono(poligono p, double x, double y) {
+void adicionarPontoPoligono(poligono p, double x, double y){
     Poligono* pol = (Poligono*) p;
     if (pol->totalPontos >= pol->capacidade){
         pol->capacidade *= 2;
@@ -97,30 +91,43 @@ void adicionarPontoPoligono(poligono p, double x, double y) {
     pol->pontos[pol->totalPontos].x = x;
     pol->pontos[pol->totalPontos].y = y;
     pol->totalPontos++;
+    if (x < pol->minX) pol->minX = x;
+    if (x > pol->maxX) pol->maxX = x;
+    if (y < pol->minY) pol->minY = y;
+    if (y > pol->maxY) pol->maxY = y;
 }
 
-Ponto calcularInterseccao(double bx, double by, double angulo, anteparo a) {
+Ponto calcularInterseccao(double bx, double by, double angulo, anteparo a){
     double x3 = getX1Anteparo(a);
     double y3 = getY1Anteparo(a);
     double x4 = getX2Anteparo(a);
     double y4 = getY2Anteparo(a);
-    double dx_ray = cos(angulo);
-    double dy_ray = sin(angulo);
+    double dx_raio = cos(angulo);
+    double dy_raio = sin(angulo);
     double dx_seg = x4 - x3;
     double dy_seg = y4 - y3;
-    double det = dx_ray * dy_seg - dy_ray * dx_seg;
-
+    double det = dx_raio * dy_seg - dy_raio * dx_seg;
     if (fabs(det) < 1e-10) { 
         Ponto p = {x3, y3}; 
         return p; 
     }
-
     double t = ((x3 - bx) * dy_seg - (y3 - by) * dx_seg) / det;
     Ponto p;
-    p.x = bx + (dx_ray * t);
-    p.y = by + (dy_ray * t);
-    
+    p.x = bx + (dx_raio * t);
+    p.y = by + (dy_raio * t);
     return p;
+}
+
+poligono criarPoligonoVazio(){
+    Poligono* p = (Poligono*) malloc(sizeof(Poligono));
+    p->totalPontos = 0;
+    p->capacidade = 10;
+    p->pontos = (Ponto*) malloc(p->capacidade*sizeof(Ponto));
+    p->minX = DBL_MAX;
+    p->maxX = -DBL_MAX;
+    p->minY = DBL_MAX;
+    p->maxY = -DBL_MAX;
+    return (poligono) p;
 }
 
 poligono criarPoligono(lista listaAnteparos, double bx, double by){
@@ -130,19 +137,15 @@ poligono criarPoligono(lista listaAnteparos, double bx, double by){
     poligono p = criarPoligonoVazio();
     arvore ar = criarArvore();
     anteparo anteriorMaisProximo = NULL;
-
     for (int i = 0; i < 2*qtdAnteparos; i++){
         Vertice v = vertices[i];
         anteriorMaisProximo = getAnteparoArvore(getMenorArvore(ar));
-
         if (v.tipo == inicio){
             inserirArvore(ar, v.an, v.distancia);
         } else{
             removerArvore(ar, v.an);
         }
-
         anteparo atualMaisProximo = getAnteparoArvore(getMenorArvore(ar));
-
         if (anteriorMaisProximo != atualMaisProximo){
             if (anteriorMaisProximo != NULL){
                 Ponto p1 = calcularInterseccao(bx, by, v.angulo, anteriorMaisProximo);
@@ -159,7 +162,32 @@ poligono criarPoligono(lista listaAnteparos, double bx, double by){
             }
         }
     }
-    
     free(vertices);
     return p;
+}
+
+void getBoundingBoxPoligono(poligono p, double* minX, double* minY, double* maxX, double* maxY){
+    Poligono* pol = (Poligono*)p;
+    (*minX) = pol->minX; 
+    (*minY) = pol->minY; 
+    (*maxX) = pol->maxX; 
+    (*maxY) = pol->maxY; 
+}
+
+double getTotalPontosPoligono(poligono p){
+    return ((Poligono*)p)->totalPontos;
+}
+
+void getPontoPoligono(poligono p, int n, double* x, double* y){
+    Poligono* pol = (Poligono*)p;
+    if (n >= 0 && n < pol->totalPontos){
+        (*x) = pol->pontos[n].x;
+        (*y) = pol->pontos[n].y;
+    }
+}
+
+void liberarPoligono(poligono p){
+    Poligono* pol = (Poligono*)p;
+    free(pol->pontos);
+    free(pol);
 }

@@ -145,6 +145,55 @@ void clonarForma(forma f, int tipoForma, lista listaFormas){
     inserirLista(listaFormas, formaNova, tipoForma);
 }
 
+void calcularBoundingBoxForma(forma f, int tipoForma, double *x1, double *y1, double *x2, double *y2){
+    switch (tipoForma){
+        case 1:
+            *x1 = getXRetangulo(f);
+            *y1 = getYRetangulo(f);
+            *x2 = *x1 + getWRetangulo(f);
+            *y2 = *y1 + getHRetangulo(f);
+            break;
+        case 2:
+        {
+            double raio = getRCirculo(f);
+            double x = getXCirculo(f);
+            double y = getYCirculo(f);
+            *x1 = x - raio;
+            *y1 = y - raio;
+            *x2 = x + raio;
+            *y2 = y + raio;
+            break;
+        }
+        case 3:
+        {
+            double xA = getX1Linha(f);
+            double xB = getX2Linha(f);
+            double yA = getY1Linha(f);
+            double yB = getY2Linha(f);
+            *x1 = fmin(xA, xB);
+            *y1 = fmin(yA, yB);
+            *x2 = fmax(xA, xB);
+            *y2 = fmax(yA, yB);
+            break;
+        }
+        case 4:
+        {
+            setX1X2Texto(f, getATexto(f)); 
+            
+            double xA = getX1Texto(f);
+            double xB = getX2Texto(f);
+            double yA = getYtTexto(f);
+            double yB = getYtTexto(f);
+
+            *x1 = fmin(xA, xB);
+            *y1 = fmin(yA, yB);
+            *x2 = fmax(xA, xB);
+            *y2 = fmax(yA, yB);
+            break;
+        }
+    }
+}
+
 void liberarForma(forma f, int tipoForma){
     switch (tipoForma){
         case 1:
