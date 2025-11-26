@@ -1,8 +1,5 @@
 #include "svg.h"
-#include "circulo.h"
-#include "retangulo.h"
-#include "texto.h"
-#include "linha.h"
+#include "poligono.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,8 +45,16 @@ void inserirTextoSVG(arquivo saida, texto txt, tipoTexto tt){
     fprintf(saida, "<text id=\"%d\" style=\"font-size:%s;font-family:%s;fill:%s;stroke:%s\" y=\"%lf\" x=\"%lf\" text-anchor=\"%s\">%s</text>\n", getIdTexto(txt), getSize(tt), getFamily(tt), getCorPTexto(txt), getCorBTexto(txt), getYtTexto(txt), getXtTexto(txt), ancora_str, getTxtoTexto(txt));
 }
 
-void inserirAsteriscoSVG(arquivo saida, double x, double y){
-    fprintf(saida, "<text x=\"%f\" y=\"%f\" font-size=\"20\" fill=\"red\">*</text>\n", x, y);
+void escreverPoligonoSVG(FILE* svg, poligono p, char* corP, char* corB) {
+    if (p == NULL || svg == NULL) return;
+    fprintf(svg, "\n\t<polygon points=\"");
+    int n = getTotalPontosPoligono(p);
+    for (int i = 0; i < n; i++) {
+        double x, y;
+        getPontoPoligono(p, i, &x, &y);
+        fprintf(svg, "%.2f,%.2f ", x, y);
+    }
+    fprintf(svg, "\" style=\"fill:%s; opacity:0.5; stroke:%s; stroke-width:2\" />\n", corP, corB);
 }
 
 void fecharSVG(arquivo saida) {

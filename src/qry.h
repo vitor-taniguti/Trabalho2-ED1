@@ -5,6 +5,7 @@
 #include "svg.h"
 #include "lista.h"
 #include "arvore.h"
+#include "colisao.h"
 #include <stdio.h>
 
 /*
@@ -22,6 +23,8 @@ void abrirArquivoQry(arquivo *qry, char *caminhoQry);
 /// @param txt Arquivo com extensao .txt que será usado
 /// @param svg Aquivo com extensao .svg que será usado
 /// @param listaFormas Lista contendo todas as formas
-void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, lista listaFormas, lista listaAnteparos);
+/// @param dirSaida String com o diretório de saída
+/// @param nomeGeo String com o nome do arquivo .geo
+void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, lista listaFormas, lista listaAnteparos, char* dirSaida, char* nomeGeo);
 
 #endif

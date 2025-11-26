@@ -27,15 +27,26 @@ void inserirLista(lista l, forma forma, int tipoForma);
 /// @param i Ponteiro para o elemento que será apagado
 void removerLista(lista l, iterador i);
 
+/// @brief Busca o ponteiro para o elemento solicitado
+/// @param l Ponteiro para a lista onde acontecerá a busca
+/// @param elemento Elemento que será buscado
+/// @return Ponteiro para o elemento encontrado ou NULL se falhar
+iterador buscarLista(lista l, iterador elemento);
+
 /// @brief Pega o primeiro elemento da lista (sem remover)
 /// @param l Ponteiro para a lista onde o elemento será pego
 /// @return Ponteiro para o primeiro elemento ou NULL se estiver vazia
 iterador getPrimeiroLista(lista l);
 
-/// @brief  Pega o proximo elemento da lista (sem remover)
+/// @brief Pega o proximo elemento da lista (sem remover)
 /// @param i Elemento que o próximo elemento será pego
 /// @return Ponteiro para o próximo elemento ou NULL se estiver vazia
 iterador getProximoLista(iterador i);
+
+/// @brief Pega o elemento anterior da lista (sem remover)
+/// @param i Elemento que o elemento anterior será pego
+/// @return Ponteiro para o elemento anterior ou NULL se estiver vazia
+iterador getAnteriorLista(iterador i);
 
 /// @brief Pega a forma do elemento da lista
 /// @param i Ponteiro para o elemento que a forma será pega
@@ -73,5 +84,9 @@ void selecionarAcaoLista(forma forma, int tipoForma, arquivo svg, tipoTexto tipo
 /// @brief Libera toda memória alocada da lista e seus elementos
 /// @param l Ponteiro para a lista que será liberada
 void liberarLista(lista l);
+
+/// @brief Libera apenas os nós da lista (sem liberar o conteúdo)
+/// @param l Ponteiro para a lista que os nós serão liberados
+void liberarApenasNosLista(lista l);
 
 #endif

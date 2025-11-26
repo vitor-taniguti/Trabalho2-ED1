@@ -40,11 +40,12 @@ void setCorBForma(forma f, int tipoForma, char* corB);
 /// @param corP String contendo a cor de borda a ser definida
 void setCorPForma(forma f, int tipoForma, char* corP);
 
-/// @brief Calcula a área da forma solicitada
-/// @param f Ponteiro para a forma que a área será calculada
-/// @param tipoForma Tipo da forma que a área será calculada
-/// @return Um double com a área da forma
-double calcAreaForma(forma f, int tipoForma);
+/// @brief Clona a forma solicitada
+/// @param f Ponteiro para a forma que será clonada
+/// @param tipoForma Tipo da forma que será clonada
+/// @param listaFormas Lista das formas
+/// @return Ponteiro para a forma clonada
+forma clonarForma(forma f, int tipoForma, lista listaFormas);
 
 /// @brief Calcula o bounding box da forma solicitada
 /// @param f Ponteiro para a forma que o bounding box será calculado

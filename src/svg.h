@@ -46,12 +46,6 @@ void inserirLinhaSVG(arquivo saida, linha l);
 /// @param tt Atributos estéticos do texto
 void inserirTextoSVG(arquivo saida, texto txt, tipoTexto tt);
 
-/// @brief Adiciona a tag text com um asterisco no arquivo SVG
-/// @param saida Ponteiro para o arquivo de saída
-/// @param x Coordenada X do asterisco
-/// @param y Coordenada Y do asterisco
-void inserirAsteriscoSVG(arquivo saida, double x, double y);
-
 /// @brief Adiciona a tag final do arquivo SVG
 /// @param saida Ponteiro para o arquivo de saída
 void fecharSVG(arquivo saida);

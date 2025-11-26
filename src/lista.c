@@ -69,9 +69,21 @@ void removerLista(lista l, iterador i){
     } else{
         lista->fim = alvo->ant;
     }
-    liberarForma(alvo->forma, alvo->tipoForma);
+    if (alvo->forma != NULL) liberarForma(alvo->forma, alvo->tipoForma);
     free(alvo);
     lista->tamanho--;
+}
+
+iterador buscarLista(lista l, forma alvo){
+    Lista* lista = (Lista*)l;
+    Elemento* atual = lista->topo;
+    while (atual != NULL){
+        if (atual->forma == alvo){
+            return atual;
+        }
+        atual = atual->prox;
+    }
+    return NULL;
 }
 
 iterador getPrimeiroLista(lista l){
@@ -88,6 +100,14 @@ iterador getProximoLista(iterador i){
         return NULL;
     }
     return e->prox;
+}
+
+iterador getAnteriorLista(iterador i){
+    Elemento *e = (Elemento*)i;
+    if (e == NULL || e->prox == NULL){
+        return NULL;
+    }
+    return e->ant;
 }
 
 iterador getUltimoLista(lista l){
@@ -161,25 +181,22 @@ void liberarLista(lista l){
     Elemento *elementoAtual = lista->topo;
     while (elementoAtual != NULL){
         Elemento *proximoElemento = elementoAtual->prox;
-        switch (elementoAtual->tipoForma){
-            case 1:
-                liberarRetangulo(elementoAtual->forma);
-                break;
-            case 2:
-                liberarCirculo(elementoAtual->forma);
-                break;
-            case 3:
-                liberarLinha(elementoAtual->forma);
-                break;
-            case 4:
-                liberarTexto(elementoAtual->forma);
-                break;
-            case 5:
-                liberarAnteparo(elementoAtual->forma);
-                break;
+        if (elementoAtual->forma != NULL){
+            liberarForma(elementoAtual->forma, elementoAtual->tipoForma);
         }
         free(elementoAtual);
         elementoAtual = proximoElemento;
+    }
+    free(lista);
+}
+
+void liberarApenasNosLista(lista l){
+    Lista* lista = (Lista*)l;
+    Elemento* atual = lista->topo;
+    while (atual != NULL){
+        Elemento* proximo = atual->prox;
+        free(atual);
+        atual = proximo;
     }
     free(lista);
 }

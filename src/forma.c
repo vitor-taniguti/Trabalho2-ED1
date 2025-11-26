@@ -101,7 +101,7 @@ double calcAreaForma(forma f, int tipoForma){
     return 0.0;
 }
 
-void clonarForma(forma f, int tipoForma, lista listaFormas){
+forma clonarForma(forma f, int tipoForma, lista listaFormas){
     forma formaNova;
     int id = getMaiorId(listaFormas) + 1;
     double x, y, w, h, r, x2, y2;
@@ -142,7 +142,7 @@ void clonarForma(forma f, int tipoForma, lista listaFormas){
             formaNova = criarTexto(id, x, y, corB, corP, a, txto);
             break;
     }
-    inserirLista(listaFormas, formaNova, tipoForma);
+    return formaNova;
 }
 
 void calcularBoundingBoxForma(forma f, int tipoForma, double *x1, double *y1, double *x2, double *y2){
