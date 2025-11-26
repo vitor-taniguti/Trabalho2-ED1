@@ -130,7 +130,7 @@ poligono criarPoligonoVazio(){
     return (poligono) p;
 }
 
-poligono criarPoligono(lista listaAnteparos, double bx, double by){
+poligono criarPoligono(lista listaAnteparos, lista atingidos, double bx, double by){
     int qtdAnteparos = getTamanhoLista(listaAnteparos);
     Vertice* vertices = criarArrayVertices(listaAnteparos, bx, by);
     qsort(vertices, 2*qtdAnteparos, sizeof(Vertice), compararVertices);
@@ -150,15 +150,18 @@ poligono criarPoligono(lista listaAnteparos, double bx, double by){
             if (anteriorMaisProximo != NULL){
                 Ponto p1 = calcularInterseccao(bx, by, v.angulo, anteriorMaisProximo);
                 adicionarPontoPoligono(p, p1.x, p1.y);
+                if (buscarLista(atingidos, anteriorMaisProximo) == NULL) inserirLista(atingidos, anteriorMaisProximo, 5);
             }
             if (atualMaisProximo != NULL){
                 Ponto p2 = calcularInterseccao(bx, by, v.angulo, atualMaisProximo);
                 adicionarPontoPoligono(p, p2.x, p2.y);
+                if (buscarLista(atingidos, anteriorMaisProximo) == NULL) inserirLista(atingidos, anteriorMaisProximo, 5);
             }
         } else{
             if (atualMaisProximo != NULL){
                 Ponto pAtual = calcularInterseccao(bx, by, v.angulo, atualMaisProximo);
                 adicionarPontoPoligono(p, pAtual.x, pAtual.y);
+                if (buscarLista(atingidos, atualMaisProximo) == NULL) inserirLista(atingidos, atualMaisProximo, 5);
             }
         }
     }
@@ -188,6 +191,6 @@ void getPontoPoligono(poligono p, int n, double* x, double* y){
 
 void liberarPoligono(poligono p){
     Poligono* pol = (Poligono*)p;
-    free(pol->pontos);
+    if (pol->pontos != NULL) free(pol->pontos);
     free(pol);
 }

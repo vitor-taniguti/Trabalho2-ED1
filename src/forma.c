@@ -208,5 +208,8 @@ void liberarForma(forma f, int tipoForma){
         case 4:
             liberarTexto(f);
             break;
+        case 5:
+            liberarAnteparo(f);
+            break;
     }
 }

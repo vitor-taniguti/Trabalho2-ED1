@@ -17,7 +17,7 @@ arquivo abrirNovoSVG(char* diretorioSaida, char* nomeBase, char* sufixo) {
 }
 
 void logicaSfx(arquivo svg, char* sfx, char* dirSaida, char* nomeGeo, lista anteparos, double x, double y){
-    poligono visibilidade = criarPoligono(anteparos, x, y);
+    poligono visibilidade = criarPoligono(anteparos, NULL, x, y);
     if (strcmp(sfx, "-") == 0) {
         escreverPoligonoSVG(svg, visibilidade, "yellow", "red");
         fprintf(svg, "\t<circle cx=\"%.2f\" cy=\"%.2f\" r=\"5\" fill=\"red\" />\n", x, y);
@@ -119,8 +119,8 @@ void d(double x, double y, char* sfx, lista formas, lista anteparos, arquivo txt
     while (atual != NULL){
         printarDadosForma(txt, getFormaLista(atual), getTipoFormaLista(atual));
         iterador proximo = getProximoLista(atual);
-        iterador formaDestruida = buscarLista(formas, getFormaLista(atual));
-        removerLista(formas, formaDestruida);
+        iterador elementoDestruido = buscarLista(formas, getFormaLista(atual));
+        removerLista(formas, elementoDestruido);
         atual = proximo;
     }
     liberarApenasNosLista(atingidos);

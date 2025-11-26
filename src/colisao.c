@@ -105,10 +105,10 @@ int relamBoundingBox(double pMinX, double pMinY, double pMaxX, double pMaxY, dou
 }
 
 lista obterAlvosAtingidos(double bx, double by, lista anteparos, lista alvos){
-    poligono pol = criarPoligono(anteparos, bx, by);
+    lista listaAtingidos = criarLista();
+    poligono pol = criarPoligono(anteparos, listaAtingidos, bx, by);
     double pMinX, pMinY, pMaxX, pMaxY;
     getBoundingBoxPoligono(pol, &pMinX, &pMinY, &pMaxX, &pMaxY);
-    lista listaAtingidos = criarLista();
     iterador i = getPrimeiroLista(alvos);
     while (i != NULL){
         forma forma = getFormaLista(i); 
@@ -121,9 +121,8 @@ lista obterAlvosAtingidos(double bx, double by, lista anteparos, lista alvos){
                 atingiu = colidePoligonoRetangulo(pol, forma);
             } else if (tipoForma == 2){ 
                 atingiu = colidePoligonoCirculo(pol, forma);
-            } if (atingiu){
-                insertLista(listaAtingidos, forma);
-            }
+            } 
+            if (atingiu) inserirLista(listaAtingidos, forma, tipoForma);
         }
         i = getProximoLista(i);
     }

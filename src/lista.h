@@ -29,9 +29,9 @@ void removerLista(lista l, iterador i);
 
 /// @brief Busca o ponteiro para o elemento solicitado
 /// @param l Ponteiro para a lista onde acontecerá a busca
-/// @param elemento Elemento que será buscado
+/// @param alvo Forma que será buscada
 /// @return Ponteiro para o elemento encontrado ou NULL se falhar
-iterador buscarLista(lista l, iterador elemento);
+iterador buscarLista(lista l, forma alvo);
 
 /// @brief Pega o primeiro elemento da lista (sem remover)
 /// @param l Ponteiro para a lista onde o elemento será pego

@@ -77,6 +77,7 @@ void removerLista(lista l, iterador i){
 iterador buscarLista(lista l, forma alvo){
     Lista* lista = (Lista*)l;
     Elemento* atual = lista->topo;
+    if (lista == NULL) return NULL;
     while (atual != NULL){
         if (atual->forma == alvo){
             return atual;

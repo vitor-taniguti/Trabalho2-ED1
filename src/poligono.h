@@ -11,10 +11,11 @@ typedef void* ponto;
 
 /// @brief Cria o polígono de visibilidade da bomba
 /// @param listaAnteparos Lista com os anteparos 
+/// @param atingidos Lista com as formas atingidas
 /// @param bx Coordenada X da bomba
 /// @param by Coordenada Y da bomba
 /// @return Um ponteiro para o polígono criado
-poligono criarPoligono(lista listaAnteparos, double bx, double by);
+poligono criarPoligono(lista listaAnteparos, lista atingidos, double bx, double by);
 
 /// @brief Pega o bounding box do polígono solicitado
 /// @param p Ponteiro para o polígono que o bounding box será pego
