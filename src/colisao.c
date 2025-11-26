@@ -99,6 +99,33 @@ int colidePoligonoCirculo(poligono p, circulo c){
     return 0;
 }
 
+int colidePoligonoSegmento(poligono p, void* f, int tipoForma){
+    double x1, y1, x2, y2;
+    if (tipoForma == 3){
+        x1 = getX1Linha(f);
+        y1 = getY1Linha(f);
+        x2 = getX2Linha(f);
+        y2 = getY2Linha(f);
+    } else{
+        x1 = getX1Texto(f);
+        y1 = getY1Texto(f);
+        x2 = getX2Texto(f);
+        y2 = getY2Texto(f);
+    }
+    if (pontoDentroPoligono(p, x1, y1)) return 1;
+    if (pontoDentroPoligono(p, x2, y2)) return 1;
+    int n = getTotalPontosPoligono(p);
+    for (int i = 0; i < n; i++){
+        double px1, py1, px2, py2;
+        getPontoPoligono(p, i, &px1, &py1);
+        getPontoPoligono(p, (i + 1) % n, &px2, &py2);
+        if (segmentosIntersectam(x1, y1, x2, y2, px1, py1, px2, py2)){
+            return 1;
+        }
+    }
+    return 0;
+}
+
 int relamBoundingBox(double pMinX, double pMinY, double pMaxX, double pMaxY, double fMinX, double fMinY, double fMaxX, double fMaxY){
     if (pMinX > fMaxX || fMinX > pMaxX || pMinY > fMaxY || fMinY > pMaxY) return 0;
     return 1;
@@ -117,11 +144,16 @@ lista obterAlvosAtingidos(double bx, double by, lista anteparos, lista alvos){
         getBoundingBoxForma(forma, tipoForma, &fMinX, &fMinY, &fMaxX, &fMaxY);
         if (relamBoundingBox(pMinX, pMinY, pMaxX, pMaxY, fMinX, fMinY, fMaxX, fMaxY)) {
             int atingiu = 0;
-            if (tipoForma == 1){
-                atingiu = colidePoligonoRetangulo(pol, forma);
-            } else if (tipoForma == 2){ 
-                atingiu = colidePoligonoCirculo(pol, forma);
-            } 
+            switch (tipoForma){
+                case 1:
+                    atingiu = colidePoligonoRetangulo(pol, forma);
+                case 2: 
+                    atingiu = colidePoligonoCirculo(pol, forma);
+                case 3:
+                    atingiu = colidePoligonoSegmento(pol, forma, tipoForma);
+                case 4:
+                    atingiu = colidePoligonoSegmento(pol, forma, tipoForma);
+            }
             if (atingiu) inserirLista(listaAtingidos, forma, tipoForma);
         }
         i = getProximoLista(i);
