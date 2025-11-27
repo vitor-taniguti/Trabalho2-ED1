@@ -11,10 +11,11 @@ typedef struct lin{
 } lin;
 
 linha criarLinha(int i, double x1, double y1, double x2, double y2, char *cor){
-    lin *l = malloc(sizeof(lin));
+    // DICA: Use calloc em vez de malloc para limpar a struct com zeros
+    lin *l = calloc(1, sizeof(lin)); 
     if (l == NULL){
         printf("Erro na alocação de memória da linha!");
-    exit(1);
+        exit(1);
     } 
     l->i = i;
     l->x1 = x1;
@@ -27,18 +28,17 @@ linha criarLinha(int i, double x1, double y1, double x2, double y2, char *cor){
         exit(1);
     }
     strcpy(l->cor, cor);
-    int r, g, b;
+    int r = 0, g = 0, b = 0;
     char *comp = malloc(8*sizeof(char));
     if (cor[0] == '#'){
         sscanf(cor + 1, "%2x%2x%2x", &r, &g, &b);
-    } else{
+    } else {
         sscanf(cor, "%2x%2x%2x", &r, &g, &b);
     }
     r = 255 - r;
     g = 255 - g;
     b = 255 - b;
     sprintf(comp, "#%02X%02X%02X", r, g, b);
-    if (l->comp != NULL) free(l->comp);
     l->comp = comp;
     return ((lin*)l);
 }

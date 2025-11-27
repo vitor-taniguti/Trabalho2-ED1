@@ -31,11 +31,11 @@ int segmentosIntersectam(double ax, double ay, double bx, double by, double cx, 
 
 int pontoDentroPoligono(poligono p, double x, double y) {
     int i, j, dentro = 0;
-    int n = getTotalPontosPoligono(p);
+    int n = getTotalVerticesPoligono(p);
     for (i = 0, j = n - 1; i < n; j = i++){
         double xi, yi, xj, yj;
-        getPontoPoligono(p, i, &xi, &yi);
-        getPontoPoligono(p, j, &xj, &yj);
+        getVerticePoligono(p, i, &xi, &yi);
+        getVerticePoligono(p, j, &xj, &yj);
         if (((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) dentro = !dentro;
     }
     return dentro;
@@ -55,18 +55,18 @@ int colidePoligonoRetangulo(poligono p, retangulo r){
     for (int i = 0; i < 4; i++){
         if (pontoDentroPoligono(p, pontosRetangulo[i][0], pontosRetangulo[i][1])) return 1;
     }
-    int n = getTotalPontosPoligono(p);
+    int n = getTotalVerticesPoligono(p);
     for (int i = 0; i < n; i++){
         double x, y;
-        getPontoPoligono(p, i, &x, &y);
+        getVerticePoligono(p, i, &x, &y);
         if (x >= rx && x <= rx + w && y >= ry && y <= ry + h) {
             return 1;
         }
     }
     for (int i = 0; i < n; i++){
         double x1, y1, x2, y2;
-        getPontoPoligono(p, i, &x1, &y1);
-        getPontoPoligono(p, (i + 1) % n, &x2, &y2);
+        getVerticePoligono(p, i, &x1, &y1);
+        getVerticePoligono(p, (i + 1) % n, &x2, &y2);
         for (int j = 0; j < 4; j++){
             double rx1 = pontosRetangulo[j][0];
             double ry1 = pontosRetangulo[j][1];
@@ -85,11 +85,11 @@ int colidePoligonoCirculo(poligono p, circulo c){
     double cy = getYCirculo(c);
     double r = getRCirculo(c);
     if (pontoDentroPoligono(p, cx, cy)) return 1;
-    int n = getTotalPontosPoligono(p);
+    int n = getTotalVerticesPoligono(p);
     for (int i = 0; i < n; i++){
         double x1, y1, x2, y2;
-        getPontoPoligono(p, i, &x1, &y1);
-        getPontoPoligono(p, (i + 1) % n, &x2, &y2);
+        getVerticePoligono(p, i, &x1, &y1);
+        getVerticePoligono(p, (i + 1) % n, &x2, &y2);
         if (distanciaPontoSegmento(cx, cy, x1, y1, x2, y2) <= r) return 1;
         if (calcularDistancia(x1, y1, cx, cy) <= r) return 1;
     }
@@ -111,11 +111,11 @@ int colidePoligonoSegmento(poligono p, void* f, int tipoForma){
     }
     if (pontoDentroPoligono(p, x1, y1)) return 1;
     if (pontoDentroPoligono(p, x2, y2)) return 1;
-    int n = getTotalPontosPoligono(p);
+    int n = getTotalVerticesPoligono(p);
     for (int i = 0; i < n; i++){
         double px1, py1, px2, py2;
-        getPontoPoligono(p, i, &px1, &py1);
-        getPontoPoligono(p, (i + 1) % n, &px2, &py2);
+        getVerticePoligono(p, i, &px1, &py1);
+        getVerticePoligono(p, (i + 1) % n, &px2, &py2);
         if (segmentosIntersectam(x1, y1, x2, y2, px1, py1, px2, py2)) return 1;
     }
     return 0;

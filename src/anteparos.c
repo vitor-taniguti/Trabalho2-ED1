@@ -75,6 +75,10 @@ anteparo transformarTexto(forma f){
     return ant;
 }
 
+int getIdAnteparo(anteparo a){
+    return ((Anteparo*)a)->id;
+}
+
 double getX1Anteparo(anteparo a){
     return ((Anteparo*)a)->x1;
 }
@@ -89,6 +93,11 @@ double getX2Anteparo(anteparo a){
 
 double getY2Anteparo(anteparo a){
     return ((Anteparo*)a)->y2;
+}
+
+void setCorAnteparo(anteparo a, char* cor){
+    Anteparo* an = (Anteparo*)a;
+    strcpy(an->cor, cor);
 }
 
 void liberarAnteparo(anteparo a){

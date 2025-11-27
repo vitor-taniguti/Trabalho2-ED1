@@ -22,6 +22,9 @@ void printarDadosForma(arquivo txt, forma f, int tipoForma){
         case 4:
             fprintf(txt, "Texto - Id: %d\n", getIdTexto(f));
             break;
+        case 5:
+            fprintf(txt, "Anteparo - Id: %d\n", getIdAnteparo(f));
+            break;
         default:
             printf("Tipo de forma inválido!\n");
             break;

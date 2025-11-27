@@ -48,10 +48,10 @@ void inserirTextoSVG(arquivo saida, texto txt, tipoTexto tt){
 void escreverPoligonoSVG(FILE* svg, poligono p, char* corP, char* corB){
     if (p == NULL || svg == NULL) return;
     fprintf(svg, "\n\t<polygon points=\"");
-    int n = getTotalPontosPoligono(p);
+    int n = getTotalVerticesPoligono(p);
     for (int i = 0; i < n; i++) {
         double x, y;
-        getPontoPoligono(p, i, &x, &y);
+        getVerticePoligono(p, i, &x, &y);
         fprintf(svg, "%.2f,%.2f ", x, y);
     }
     fprintf(svg, "\" style=\"fill:%s; opacity:0.5; stroke:%s; stroke-width:2\" />\n", corP, corB);

@@ -19,7 +19,7 @@ lista criarLista();
 /// @brief Insere um elemento no final da lista
 /// @param l Ponteiro para a lista onde a forma será inserida
 /// @param forma Forma a ser inserida na lista
-/// @param tipoForma Tipo da forma a ser inserida na lista (1-Retângulo, 2-Círculo, 3-Linha, 4-Texto, 5-Anteparo)
+/// @param tipoForma Tipo da forma a ser inserida na lista (1-Retângulo, 2-Círculo, 3-Linha, 4-Texto, 5-Anteparo, 6-Vértice)
 void inserirLista(lista l, forma forma, int tipoForma);
 
 /// @brief Remove o primeiro elemento da lista

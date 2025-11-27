@@ -71,6 +71,7 @@ void a(int i, int j, char orientacao, lista listaFormas, lista listaAnteparos, a
         }
         atual = proximo;
     }
+    fprintf(txt, "\n");
 }
 
 void d(double x, double y, char* sfx, lista formas, lista anteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo, char tipoSort, int limite){
@@ -86,6 +87,7 @@ void d(double x, double y, char* sfx, lista formas, lista anteparos, arquivo txt
     }
     liberarApenasNosLista(atingidos);
     logicaSfx(svg, sfx, dirSaida, nomeGeo, anteparos, x, y, tipoSort, limite);
+    fprintf(txt, "\n");
 }
 
 void p(double x, double y, char* cor, char* sfx, lista formas, lista anteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo, char tipoSort, int limite){
@@ -104,6 +106,7 @@ void p(double x, double y, char* cor, char* sfx, lista formas, lista anteparos, 
     }
     liberarApenasNosLista(atingidos);
     logicaSfx(svg, sfx, dirSaida, nomeGeo, anteparos, x, y, tipoSort, limite);
+    fprintf(txt, "\n");
 }
 
 void cln(double x, double y, double dx, double dy, char* sfx, lista formas, lista anteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo, char tipoSort, int limite){
@@ -121,6 +124,7 @@ void cln(double x, double y, double dx, double dy, char* sfx, lista formas, list
     }
     liberarApenasNosLista(atingidos);
     logicaSfx(svg, sfx, dirSaida, nomeGeo, anteparos, x, y, tipoSort, limite);
+    fprintf(txt, "\n");
 }
 
 void processarLinhaComandos(char *linha, char *comando, lista listaFormas, lista listaAnteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo, char tipoSort, int limite){

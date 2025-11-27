@@ -1,6 +1,7 @@
 #include "forma.h"
 #include "lista.h"
 #include "anteparos.h"
+#include "vertice.h"
 
 int getIdForma(forma f, int tipoForma){
     switch (tipoForma){
@@ -67,6 +68,9 @@ void setCorBForma(forma f, int tipoForma, char* corB){
             break;
         case 4:
             setCorBTexto(f, corB);
+            break;
+        case 5:
+            setCorAnteparo(f, corB);
             break;
     }
 }
@@ -209,6 +213,9 @@ void liberarForma(forma f, int tipoForma){
             break;
         case 5:
             liberarAnteparo(f);
+            break;
+        case 6:
+            liberarVertice(f);
             break;
     }
 }

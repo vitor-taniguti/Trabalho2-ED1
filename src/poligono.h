@@ -2,14 +2,19 @@
 #define POLIGONO_H
 
 #include "anteparos.h"
+#include "vertice.h"
 #include "sort.h"
 #include "lista.h"
 #include "arvore.h"
 
 typedef void* poligono;
-typedef void* ponto;
 
-/// @brief Cria o polígono de visibilidade da bomba
+/// @brief Cria o polígono de visibilidade
+/// @return Ponteiro para o polígono criado
+poligono criarPoligono();
+
+/// @brief Calcula o polígono de visibilidade da bomba
+/// @param p Ponteiro para o polígono que será calculado
 /// @param listaAnteparos Lista com os anteparos 
 /// @param atingidos Lista com as formas atingidas
 /// @param bx Coordenada X da bomba
@@ -17,7 +22,7 @@ typedef void* ponto;
 /// @param tipoSort Char para o tipo de ordenação utilizada ('q' - qsort, 'm' - msort)
 /// @param limite Limite para utilizar o insertion sort
 /// @return Um ponteiro para o polígono criado
-poligono criarPoligono(lista listaAnteparos, lista atingidos, double bx, double by, char tipoSort, int limite);
+poligono calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double bx, double by, char tipoSort, int limite);
 
 /// @brief Pega o bounding box do polígono solicitado
 /// @param p Ponteiro para o polígono que o bounding box será pego
@@ -30,14 +35,14 @@ void getBoundingBoxPoligono(poligono p, double* minX, double* minY, double* maxX
 /// @brief Pega a quantidade total de pontos no polígono
 /// @param p Ponteiro para o polígono que o total de pontos será pego
 /// @return Um double com a quantidade total de pontos do polígono
-double getTotalPontosPoligono(poligono p);
+int getTotalVerticesPoligono(poligono p);
 
 /// @brief Pega as coordenadas de um ponto específico do polígono
 /// @param p Ponteiro para o polígono que as coordenadas do ponto serão pegas
 /// @param n Número do ponto que será pego
 /// @param x Coordenada X do ponto que será pego
 /// @param y Coordenada Y do ponto que será pego
-void getPontoPoligono(poligono p, int n, double* x, double* y);
+void getVerticePoligono(poligono p, int n, double* x, double* y);
 
 /// @brief Calcula a distância entre dois pontos
 /// @param x1 Primeira coordenada X do ponto
@@ -50,6 +55,5 @@ double calcularDistancia(double x1, double y1, double x2, double y2);
 /// @brief Libera o polígono 
 /// @param p Ponteiro para o polígono criado
 void liberarPoligono(poligono p);
-
 
 #endif

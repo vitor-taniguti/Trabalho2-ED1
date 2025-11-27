@@ -102,6 +102,7 @@ void removerArvore(arvore ar, anteparo an){
 }
 
 anteparo getAnteparoArvore(iterador i){
+    if (i == NULL) return NULL;
     return ((Elemento*)i)->an;
 }
 
@@ -113,6 +114,7 @@ void liberarRecursivo(iterador i){
     Elemento* no = (Elemento*)i;
     if (no->e != NULL) liberarRecursivo(no->e);
     if (no->d != NULL) liberarRecursivo(no->d);
+    liberarAnteparo(no->an);
     free(no);
 }
 

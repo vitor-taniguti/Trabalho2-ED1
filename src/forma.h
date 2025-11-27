@@ -59,7 +59,7 @@ void getBoundingBoxForma(forma f, int tipoForma, double *x1, double *y1, double 
 
 /// @brief Libera a forma solicitada
 /// @param f Ponteiro para a forma que será liberada
-/// @param tipoForma Tipo da forma que será liberada
+/// @param tipoForma Tipo da forma que será liberada (1-Retângulo, 2-Círculo, 3-Linha, 4-Texto, 5-Anteparo, 6-Vértice)
 void liberarForma(forma f, int tipoForma);
 
 #endif
