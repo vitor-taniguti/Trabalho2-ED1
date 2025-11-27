@@ -130,10 +130,11 @@ poligono criarPoligonoVazio(){
     return (poligono) p;
 }
 
-poligono criarPoligono(lista listaAnteparos, lista atingidos, double bx, double by){
+poligono criarPoligono(lista listaAnteparos, lista atingidos, double bx, double by, char tipoSort, int limite){
     int qtdAnteparos = getTamanhoLista(listaAnteparos);
     Vertice* vertices = criarArrayVertices(listaAnteparos, bx, by);
-    qsort(vertices, 2*qtdAnteparos, sizeof(Vertice), compararVertices);
+    if (tipoSort == 'q') qsort(vertices, 2*qtdAnteparos, sizeof(Vertice), compararVertices);
+    else if (tipoSort == 'm') msort(vertices, 2*qtdAnteparos, sizeof(Vertice), compararVertices, limite);
     poligono p = criarPoligonoVazio();
     arvore ar = criarArvore();
     anteparo anteriorMaisProximo = NULL;

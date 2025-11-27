@@ -35,20 +35,25 @@ anteparo transformarLinha(forma f);
 /// @return Um ponteiro para o anteparo criado
 anteparo transformarTexto(forma f);
 
-/// @brief Pega o id do anteparo
-/// @param a Ponteiro para o anteparo que o id será pego
-/// @return Um inteiro com o id do anteparo
-int getIdAnteparo(anteparo a);
-
+/// @brief Pega a primeira coordenada X do anteparo
+/// @param a Ponteiro para o anteparo que a coordenada será pega
+/// @return Um double com a primeira coordenada X do anteparo
 double getX1Anteparo(anteparo a);
 
+/// @brief Pega a primeira coordenada Y do anteparo
+/// @param a Ponteiro para o anteparo que a coordenada será pega
+/// @return Um double com a primeira coordenada Y do anteparo
 double getY1Anteparo(anteparo a);
 
+/// @brief Pega a segunda coordenada X do anteparo
+/// @param a Ponteiro para o anteparo que a coordenada será pega
+/// @return Um double com a segunda coordenada X do anteparo
 double getX2Anteparo(anteparo a);
 
+/// @brief Pega a segunda coordenada Y do anteparo
+/// @param a Ponteiro para o anteparo que a coordenada será pega
+/// @return Um double com a segunda coordenada Y do anteparo
 double getY2Anteparo(anteparo a);
-
-char* getCorAnteparo(anteparo a);
 
 /// @brief Libera o anteparo
 /// @param a Ponteiro para o anteparo que será liberado

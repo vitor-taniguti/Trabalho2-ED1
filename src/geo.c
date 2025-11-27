@@ -6,7 +6,6 @@
 #include "circulo.h"
 #include "linha.h"
 #include "texto.h"
-#include "lista.h"
 
 #define max_fonte 64
 #define max_cor 8
@@ -17,23 +16,6 @@ void abrirArquivoGeo(arquivo *geo, char *caminhoGeo){
     if(*geo == NULL){
         printf("Erro na abertura do arquivo!\n");
         exit(1);
-    }
-}
-
-void lerArquivoGeo(arquivo geo, lista formas, tipoTexto tt){
-    if (geo == NULL){
-        printf("Arquivo não foi aberto!");
-        return;
-    }
-    char linha[256], tipoForma[3];
-    while (fgets(linha, sizeof(linha), geo)){
-        int i = 0;
-        while (linha[i] != ' ' && linha[i] != '\n' && linha[i] != '\0'){
-            tipoForma[i] = linha[i];
-            i++;
-        }
-        tipoForma[i] = '\0';
-        processarLinhaFormas(linha, tipoForma, formas, tt);
     }
 }
 
@@ -63,5 +45,22 @@ void processarLinhaFormas(char *linha, char *tipoForma, lista formas, tipoTexto 
         setSize(tt, size);
     } else{
         printf("A forma solicitada não está no registro: %s\n", linha);
+    }
+}
+
+void lerArquivoGeo(arquivo geo, lista formas, tipoTexto tt){
+    if (geo == NULL){
+        printf("Arquivo não foi aberto!");
+        return;
+    }
+    char linha[256], tipoForma[3];
+    while (fgets(linha, sizeof(linha), geo)){
+        int i = 0;
+        while (linha[i] != ' ' && linha[i] != '\n' && linha[i] != '\0'){
+            tipoForma[i] = linha[i];
+            i++;
+        }
+        tipoForma[i] = '\0';
+        processarLinhaFormas(linha, tipoForma, formas, tt);
     }
 }

@@ -25,6 +25,8 @@ void abrirArquivoQry(arquivo *qry, char *caminhoQry);
 /// @param listaFormas Lista contendo todas as formas
 /// @param dirSaida String com o diretório de saída
 /// @param nomeGeo String com o nome do arquivo .geo
-void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, lista listaFormas, lista listaAnteparos, char* dirSaida, char* nomeGeo);
+/// @param tipoSort Char para o tipo de ordenação utilizada ('q' - qsort, 'm' - msort)
+/// @param limite Limite para utilizar o insertion sort
+void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, lista listaFormas, lista listaAnteparos, char* dirSaida, char* nomeGeo, char tipoSort, int limite);
 
 #endif

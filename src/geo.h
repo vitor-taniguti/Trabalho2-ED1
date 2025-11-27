@@ -1,6 +1,7 @@
 #ifndef GEO_H
 #define GEO_H
 
+#include "lista.h"
 #include <stdio.h>
 
 /*

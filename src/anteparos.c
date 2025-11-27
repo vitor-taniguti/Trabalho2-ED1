@@ -75,6 +75,22 @@ anteparo transformarTexto(forma f){
     return ant;
 }
 
+double getX1Anteparo(anteparo a){
+    return ((Anteparo*)a)->x1;
+}
+
+double getY1Anteparo(anteparo a){
+    return ((Anteparo*)a)->y1;
+}
+
+double getX2Anteparo(anteparo a){
+    return ((Anteparo*)a)->x2;
+}
+
+double getY2Anteparo(anteparo a){
+    return ((Anteparo*)a)->y2;
+}
+
 void liberarAnteparo(anteparo a){
     Anteparo* ant = a;
     free(ant->cor);

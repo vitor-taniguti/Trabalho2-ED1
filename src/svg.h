@@ -7,6 +7,7 @@
 #include "circulo.h"
 #include "linha.h"
 #include "texto.h"
+#include "poligono.h"
 
 /*
 Módulo responsável por gerenciar a criação e escrita dos arquivos com final .svg.
@@ -45,6 +46,13 @@ void inserirLinhaSVG(arquivo saida, linha l);
 /// @param txt Forma do texto
 /// @param tt Atributos estéticos do texto
 void inserirTextoSVG(arquivo saida, texto txt, tipoTexto tt);
+
+/// @brief Adiciona a tag polygon points do arquivo SVG
+/// @param svg Ponteiro para o arquivo de saída
+/// @param p Ponteiro para o polígono
+/// @param corP Cor de preenchimento do polígono
+/// @param corB Cor de borda do polígono
+void escreverPoligonoSVG(FILE* svg, poligono p, char* corP, char* corB);
 
 /// @brief Adiciona a tag final do arquivo SVG
 /// @param saida Ponteiro para o arquivo de saída

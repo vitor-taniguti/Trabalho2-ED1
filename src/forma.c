@@ -1,5 +1,6 @@
 #include "forma.h"
 #include "lista.h"
+#include "anteparos.h"
 
 int getIdForma(forma f, int tipoForma){
     switch (tipoForma){
@@ -79,7 +80,7 @@ void setCorPForma(forma f, int tipoForma, char* corP){
             setCorPCirculo(f, corP);
             break;
         case 3: 
-            calcCorComplementarLinha(f);
+            setCorComplementarLinha(f);
             break;
         case 4:
             setCorBTexto(f, corP);
@@ -101,15 +102,15 @@ double calcAreaForma(forma f, int tipoForma){
     return 0.0;
 }
 
-forma clonarForma(forma f, int tipoForma, lista listaFormas){
+forma clonarForma(forma f, int tipoForma, void* listaFormas, double dx, double dy){
     forma formaNova;
-    int id = getMaiorId(listaFormas) + 1;
+    int id = getMaiorIdLista(listaFormas) + 1;
     double x, y, w, h, r, x2, y2;
     char *corP, *corB, a, *txto;
     switch (tipoForma){
         case 1:
-            x = getXRetangulo(f);
-            y = getYRetangulo(f);
+            x = getXRetangulo(f) + dx;
+            y = getYRetangulo(f) + dy;
             w = getWRetangulo(f);
             h = getHRetangulo(f);
             corP = getCorPRetangulo(f);
@@ -117,24 +118,24 @@ forma clonarForma(forma f, int tipoForma, lista listaFormas){
             formaNova = criarRetangulo(id, x, y, w, h, corB, corP);
             break;
         case 2:
-            x = getXCirculo(f);
-            y = getYCirculo(f);
+            x = getXCirculo(f) + dx;
+            y = getYCirculo(f) + dy;
             r = getRCirculo(f);
             corP = getCorPCirculo(f);
             corB = getCorBCirculo(f);
             formaNova = criarCirculo(id, x, y, r, corB, corP);
             break;
         case 3:
-            x = getX1Linha(f);
-            y = getY1Linha(f);
-            x2 = getX2Linha(f);
-            y2 = getY2Linha(f);
+            x = getX1Linha(f) + dx;
+            y = getY1Linha(f) + dy;
+            x2 = getX2Linha(f) + dx;
+            y2 = getY2Linha(f) + dy;
             corB = getCorLinha(f);
             formaNova = criarLinha(id, x, y, x2, y2, corB);
             break;
         case 4:
-            x = getXtTexto(f);
-            y = getYtTexto(f);
+            x = getXtTexto(f) + dx;
+            y = getYtTexto(f) + dy;
             a = getATexto(f);
             corP = getCorPTexto(f);
             corB = getCorBTexto(f);
@@ -145,7 +146,7 @@ forma clonarForma(forma f, int tipoForma, lista listaFormas){
     return formaNova;
 }
 
-void calcularBoundingBoxForma(forma f, int tipoForma, double *x1, double *y1, double *x2, double *y2){
+void getBoundingBoxForma(forma f, int tipoForma, double *x1, double *y1, double *x2, double *y2){
     switch (tipoForma){
         case 1:
             *x1 = getXRetangulo(f);
@@ -178,8 +179,6 @@ void calcularBoundingBoxForma(forma f, int tipoForma, double *x1, double *y1, do
         }
         case 4:
         {
-            setX1X2Texto(f, getATexto(f)); 
-            
             double xA = getX1Texto(f);
             double xB = getX2Texto(f);
             double yA = getYtTexto(f);

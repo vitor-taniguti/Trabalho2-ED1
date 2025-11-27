@@ -14,8 +14,10 @@ typedef void* ponto;
 /// @param atingidos Lista com as formas atingidas
 /// @param bx Coordenada X da bomba
 /// @param by Coordenada Y da bomba
+/// @param tipoSort Char para o tipo de ordenação utilizada ('q' - qsort, 'm' - msort)
+/// @param limite Limite para utilizar o insertion sort
 /// @return Um ponteiro para o polígono criado
-poligono criarPoligono(lista listaAnteparos, lista atingidos, double bx, double by);
+poligono criarPoligono(lista listaAnteparos, lista atingidos, double bx, double by, char tipoSort, int limite);
 
 /// @brief Pega o bounding box do polígono solicitado
 /// @param p Ponteiro para o polígono que o bounding box será pego
@@ -28,7 +30,7 @@ void getBoundingBoxPoligono(poligono p, double* minX, double* minY, double* maxX
 /// @brief Pega a quantidade total de pontos no polígono
 /// @param p Ponteiro para o polígono que o total de pontos será pego
 /// @return Um double com a quantidade total de pontos do polígono
-int getTotalPontosPoligono(poligono p);
+double getTotalPontosPoligono(poligono p);
 
 /// @brief Pega as coordenadas de um ponto específico do polígono
 /// @param p Ponteiro para o polígono que as coordenadas do ponto serão pegas
@@ -36,6 +38,14 @@ int getTotalPontosPoligono(poligono p);
 /// @param x Coordenada X do ponto que será pego
 /// @param y Coordenada Y do ponto que será pego
 void getPontoPoligono(poligono p, int n, double* x, double* y);
+
+/// @brief Calcula a distância entre dois pontos
+/// @param x1 Primeira coordenada X do ponto
+/// @param y1 Primeira coordenada Y do ponto
+/// @param x2 Segunda coordenada X do ponto
+/// @param y2 Segunda coordenada Y do ponto
+/// @return Um double com a distância entre os dois pontos
+double calcularDistancia(double x1, double y1, double x2, double y2);
 
 /// @brief Libera o polígono 
 /// @param p Ponteiro para o polígono criado

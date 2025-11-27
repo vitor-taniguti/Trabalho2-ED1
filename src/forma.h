@@ -5,7 +5,6 @@
 #include "retangulo.h"
 #include "linha.h"
 #include "texto.h"
-#include "anteparos.h"
 #include <math.h>
 
 typedef void* forma;
@@ -44,8 +43,10 @@ void setCorPForma(forma f, int tipoForma, char* corP);
 /// @param f Ponteiro para a forma que será clonada
 /// @param tipoForma Tipo da forma que será clonada
 /// @param listaFormas Lista das formas
+/// @param dx Deslocamento X da forma clonada
+/// @param dy Deslocamento Y da forma clonada
 /// @return Ponteiro para a forma clonada
-forma clonarForma(forma f, int tipoForma, lista listaFormas);
+forma clonarForma(forma f, int tipoForma, void* listaFormas, double dx, double dy);
 
 /// @brief Calcula o bounding box da forma solicitada
 /// @param f Ponteiro para a forma que o bounding box será calculado
@@ -54,7 +55,7 @@ forma clonarForma(forma f, int tipoForma, lista listaFormas);
 /// @param y1 Menor coordenada Y da forma
 /// @param x2 Maior coordenada X da forma 
 /// @param y2 Maior coordenada Y da forma
-void calcularBoundingBoxForma(forma f, int tipoForma, double *x1, double *y1, double *x2, double *y2);
+void getBoundingBoxForma(forma f, int tipoForma, double *x1, double *y1, double *x2, double *y2);
 
 /// @brief Libera a forma solicitada
 /// @param f Ponteiro para a forma que será liberada

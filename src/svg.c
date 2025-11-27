@@ -45,7 +45,7 @@ void inserirTextoSVG(arquivo saida, texto txt, tipoTexto tt){
     fprintf(saida, "<text id=\"%d\" style=\"font-size:%s;font-family:%s;fill:%s;stroke:%s\" y=\"%lf\" x=\"%lf\" text-anchor=\"%s\">%s</text>\n", getIdTexto(txt), getSize(tt), getFamily(tt), getCorPTexto(txt), getCorBTexto(txt), getYtTexto(txt), getXtTexto(txt), ancora_str, getTxtoTexto(txt));
 }
 
-void escreverPoligonoSVG(FILE* svg, poligono p, char* corP, char* corB) {
+void escreverPoligonoSVG(FILE* svg, poligono p, char* corP, char* corB){
     if (p == NULL || svg == NULL) return;
     fprintf(svg, "\n\t<polygon points=\"");
     int n = getTotalPontosPoligono(p);

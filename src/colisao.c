@@ -1,10 +1,7 @@
 #include "colisao.h"
+#include "forma.h"
 #include <math.h>
 #include <stdlib.h>
-
-double calcularDistancia(double x1, double y1, double x2, double y2) {
-    return sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-}
 
 double distanciaPontoSegmento(double px, double py, double x1, double y1, double x2, double y2){
     double l2 = calcularDistancia(x1, y1, x2, y2);
@@ -108,9 +105,9 @@ int colidePoligonoSegmento(poligono p, void* f, int tipoForma){
         y2 = getY2Linha(f);
     } else{
         x1 = getX1Texto(f);
-        y1 = getY1Texto(f);
+        y1 = getYtTexto(f);
         x2 = getX2Texto(f);
-        y2 = getY2Texto(f);
+        y2 = getYtTexto(f);
     }
     if (pontoDentroPoligono(p, x1, y1)) return 1;
     if (pontoDentroPoligono(p, x2, y2)) return 1;
@@ -119,9 +116,7 @@ int colidePoligonoSegmento(poligono p, void* f, int tipoForma){
         double px1, py1, px2, py2;
         getPontoPoligono(p, i, &px1, &py1);
         getPontoPoligono(p, (i + 1) % n, &px2, &py2);
-        if (segmentosIntersectam(x1, y1, x2, y2, px1, py1, px2, py2)){
-            return 1;
-        }
+        if (segmentosIntersectam(x1, y1, x2, y2, px1, py1, px2, py2)) return 1;
     }
     return 0;
 }
@@ -131,9 +126,9 @@ int relamBoundingBox(double pMinX, double pMinY, double pMaxX, double pMaxY, dou
     return 1;
 }
 
-lista obterAlvosAtingidos(double bx, double by, lista anteparos, lista alvos){
+lista obterAlvosAtingidos(double bx, double by, lista anteparos, lista alvos, char tipoSort, int limite){
     lista listaAtingidos = criarLista();
-    poligono pol = criarPoligono(anteparos, listaAtingidos, bx, by);
+    poligono pol = criarPoligono(anteparos, listaAtingidos, bx, by, tipoSort, limite);
     double pMinX, pMinY, pMaxX, pMaxY;
     getBoundingBoxPoligono(pol, &pMinX, &pMinY, &pMaxX, &pMaxY);
     iterador i = getPrimeiroLista(alvos);
@@ -147,12 +142,16 @@ lista obterAlvosAtingidos(double bx, double by, lista anteparos, lista alvos){
             switch (tipoForma){
                 case 1:
                     atingiu = colidePoligonoRetangulo(pol, forma);
+                    break;
                 case 2: 
                     atingiu = colidePoligonoCirculo(pol, forma);
+                    break;
                 case 3:
                     atingiu = colidePoligonoSegmento(pol, forma, tipoForma);
+                    break;
                 case 4:
                     atingiu = colidePoligonoSegmento(pol, forma, tipoForma);
+                    break;
             }
             if (atingiu) inserirLista(listaAtingidos, forma, tipoForma);
         }

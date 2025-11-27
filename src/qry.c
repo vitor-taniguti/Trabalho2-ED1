@@ -16,8 +16,8 @@ arquivo abrirNovoSVG(char* diretorioSaida, char* nomeBase, char* sufixo) {
     return f;
 }
 
-void logicaSfx(arquivo svg, char* sfx, char* dirSaida, char* nomeGeo, lista anteparos, double x, double y){
-    poligono visibilidade = criarPoligono(anteparos, NULL, x, y);
+void logicaSfx(arquivo svg, char* sfx, char* dirSaida, char* nomeGeo, lista anteparos, double x, double y, char tipoSort, int limite){
+    poligono visibilidade = criarPoligono(anteparos, NULL, x, y, tipoSort, limite);
     if (strcmp(sfx, "-") == 0) {
         escreverPoligonoSVG(svg, visibilidade, "yellow", "red");
         fprintf(svg, "\t<circle cx=\"%.2f\" cy=\"%.2f\" r=\"5\" fill=\"red\" />\n", x, y);
@@ -39,49 +39,12 @@ void abrirArquivoQry(arquivo *qry, char *caminhoQry){
     }
 }
 
-void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, lista listaFormas, lista listaAnteparos, char* dirSaida, char* nomeGeo){
-    if (qry == NULL){
-        printf("Arquivo não foi aberto!");
-        return;
-    }
-    char linha[256], comando[5];
-    while (fgets(linha, sizeof(linha), qry)){
-        int i = 0;
-        while (linha[i] != ' ' && linha[i] != '\n' && linha[i] != '\0'){
-            comando[i] = linha[i];
-            i++;
-        }
-        comando[i] = '\0';
-        processarLinhaComandos(linha, comando, listaFormas, listaAnteparos, txt, svg, dirSaida, nomeGeo);
-    }
-}
-
-void processarLinhaComandos(char *linha, char *comando, lista listaFormas, lista listaAnteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo){
-    int i, j;
-    double x, y, dx, dy;
-    char orientacao, com[4], sfx[16], cor[8];
-    fprintf(txt, "[*] %s\n", linha);
-    if (strcmp(comando, "a") == 0){
-        sscanf(linha, "%2s %d %d %c", com, &i, &j, &orientacao); 
-        a(i, j, orientacao, listaFormas, listaAnteparos, txt);
-    } else if (strcmp(comando, "d") == 0){
-        sscanf(linha, "%2s %lf %lf %s", com, &x, &y, sfx);
-        d(x, y, sfx, listaFormas, listaAnteparos, txt, svg, dirSaida, nomeGeo);
-    } else if (strcmp(comando, "p") == 0){
-        sscanf(linha, "%2s %lf %lf %8s %s", com, &x, &y, cor, sfx);
-        p(x, y, cor, sfx, listaFormas, listaAnteparos, txt, svg, dirSaida, nomeGeo);
-    } else if (strcmp(comando, "cln") == 0){
-        sscanf(linha, "%4s %lf %lf %lf %lf %s", com, &x, &y, &dx, &dy, sfx);
-        cln(x, y, dx, dy, sfx, listaFormas, listaAnteparos, txt, svg, dirSaida, nomeGeo);
-    }
-}
-
 void a(int i, int j, char orientacao, lista listaFormas, lista listaAnteparos, arquivo txt){
     fprintf(txt, "Formas transformadas em anteparo:\n\n");
-    iterador atual = getPrimeiroFila(listaFormas);
+    iterador atual = getPrimeiroLista(listaFormas);
     while (atual != NULL){
-        forma f = getFormaFila(atual);
-        int tipoForma = getTipoFormaFila(atual);
+        forma f = getFormaLista(atual);
+        int tipoForma = getTipoFormaLista(atual);
         int id = getIdForma(f, tipoForma);
         iterador proximo = getProximoLista(atual);
         if (id >= i && id <= j){
@@ -104,17 +67,15 @@ void a(int i, int j, char orientacao, lista listaFormas, lista listaAnteparos, a
                     break;
             }
             printarDadosForma(txt, f, tipoForma);
-            forma removido;
-            int tipoForma;
             removerLista(listaFormas, atual);
         }
         atual = proximo;
     }
 }
 
-void d(double x, double y, char* sfx, lista formas, lista anteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo){
+void d(double x, double y, char* sfx, lista formas, lista anteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo, char tipoSort, int limite){
     fprintf(txt, "Formas destruídas: \n\n");
-    lista atingidos = obterAlvosAtingidos(x, y, anteparos, formas);
+    lista atingidos = obterAlvosAtingidos(x, y, anteparos, formas, tipoSort, limite);
     iterador atual = getPrimeiroLista(atingidos);
     while (atual != NULL){
         printarDadosForma(txt, getFormaLista(atual), getTipoFormaLista(atual));
@@ -124,12 +85,12 @@ void d(double x, double y, char* sfx, lista formas, lista anteparos, arquivo txt
         atual = proximo;
     }
     liberarApenasNosLista(atingidos);
-    logicaSfx(svg, sfx, dirSaida, nomeGeo, anteparos, x, y);
+    logicaSfx(svg, sfx, dirSaida, nomeGeo, anteparos, x, y, tipoSort, limite);
 }
 
-void p(double x, double y, char* cor, char* sfx, lista formas, lista anteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo){
+void p(double x, double y, char* cor, char* sfx, lista formas, lista anteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo, char tipoSort, int limite){
     fprintf(txt, "Formas pintadas: \n\n");
-    lista atingidos = obterAlvosAtingidos(x, y, anteparos, formas);
+    lista atingidos = obterAlvosAtingidos(x, y, anteparos, formas, tipoSort, limite);
     iterador atual = getPrimeiroLista(atingidos);
     while (atual != NULL){
         printarDadosForma(txt, getFormaLista(atual), getTipoFormaLista(atual));
@@ -142,12 +103,12 @@ void p(double x, double y, char* cor, char* sfx, lista formas, lista anteparos, 
         atual = proximo;
     }
     liberarApenasNosLista(atingidos);
-    logicaSfx(svg, sfx, dirSaida, nomeGeo, anteparos, x, y);
+    logicaSfx(svg, sfx, dirSaida, nomeGeo, anteparos, x, y, tipoSort, limite);
 }
 
-void cln(double x, double y, double dx, double dy, char* sfx, lista formas, lista anteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo){
+void cln(double x, double y, double dx, double dy, char* sfx, lista formas, lista anteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo, char tipoSort, int limite){
     fprintf(txt, "Formas pintadas: \n\n");
-    lista atingidos = obterAlvosAtingidos(x, y, anteparos, formas);
+    lista atingidos = obterAlvosAtingidos(x, y, anteparos, formas, tipoSort, limite);
     iterador atual = getPrimeiroLista(atingidos);
     while (atual != NULL){
         printarDadosForma(txt, getFormaLista(atual), getTipoFormaLista(atual));
@@ -155,9 +116,46 @@ void cln(double x, double y, double dx, double dy, char* sfx, lista formas, list
         iterador elementoClonado = buscarLista(formas, getFormaLista(atual));
         forma formaClonada = getFormaLista(elementoClonado);
         int tipoFormaClonada = getTipoFormaLista(elementoClonado);
-        inserirLista(formas, clonarForma(formaClonada, tipoFormaClonada, formas), tipoFormaClonada);
+        inserirLista(formas, clonarForma(formaClonada, tipoFormaClonada, formas, dx, dy), tipoFormaClonada);
         atual = proximo;
     }
     liberarApenasNosLista(atingidos);
-    logicaSfx(svg, sfx, dirSaida, nomeGeo, anteparos, x, y);
+    logicaSfx(svg, sfx, dirSaida, nomeGeo, anteparos, x, y, tipoSort, limite);
+}
+
+void processarLinhaComandos(char *linha, char *comando, lista listaFormas, lista listaAnteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo, char tipoSort, int limite){
+    int i, j;
+    double x, y, dx, dy;
+    char orientacao, com[4], sfx[16], cor[8];
+    fprintf(txt, "[*] %s\n", linha);
+    if (strcmp(comando, "a") == 0){
+        sscanf(linha, "%2s %d %d %c", com, &i, &j, &orientacao); 
+        a(i, j, orientacao, listaFormas, listaAnteparos, txt);
+    } else if (strcmp(comando, "d") == 0){
+        sscanf(linha, "%2s %lf %lf %s", com, &x, &y, sfx);
+        d(x, y, sfx, listaFormas, listaAnteparos, txt, svg, dirSaida, nomeGeo, tipoSort, limite);
+    } else if (strcmp(comando, "p") == 0){
+        sscanf(linha, "%2s %lf %lf %8s %s", com, &x, &y, cor, sfx);
+        p(x, y, cor, sfx, listaFormas, listaAnteparos, txt, svg, dirSaida, nomeGeo, tipoSort, limite);
+    } else if (strcmp(comando, "cln") == 0){
+        sscanf(linha, "%4s %lf %lf %lf %lf %s", com, &x, &y, &dx, &dy, sfx);
+        cln(x, y, dx, dy, sfx, listaFormas, listaAnteparos, txt, svg, dirSaida, nomeGeo, tipoSort, limite);
+    }
+}
+
+void lerArquivoQry(arquivo qry, arquivo txt, arquivo svg, lista listaFormas, lista listaAnteparos, char* dirSaida, char* nomeGeo, char tipoSort, int limite){
+    if (qry == NULL){
+        printf("Arquivo não foi aberto!");
+        return;
+    }
+    char linha[256], comando[5];
+    while (fgets(linha, sizeof(linha), qry)){
+        int i = 0;
+        while (linha[i] != ' ' && linha[i] != '\n' && linha[i] != '\0'){
+            comando[i] = linha[i];
+            i++;
+        }
+        comando[i] = '\0';
+        processarLinhaComandos(linha, comando, listaFormas, listaAnteparos, txt, svg, dirSaida, nomeGeo, tipoSort, limite);
+    }
 }
