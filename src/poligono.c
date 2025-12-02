@@ -64,58 +64,11 @@ anteparo* adicionarBordasTemporarias(lista anteparos, double bx, double by, doub
     return bordas;
 }
 
-void tratarArestasCorte(lista anteparos, double bx, double by){
-    lista novosSegmentos = criarLista();
-    iterador it = getPrimeiroLista(anteparos);
-    while (it != NULL) {
-        anteparo a = getFormaLista(it);
-        double x1 = getX1Anteparo(a);
-        double y1 = getY1Anteparo(a);
-        double x2 = getX2Anteparo(a);
-        double y2 = getY2Anteparo(a);
-        if ((y1 > by && y2 < by) || (y1 < by && y2 > by)){
-            double t = (by - y1) / (y2 - y1);
-            double xCruzamento = x1 + t * (x2 - x1);
-            if (xCruzamento < bx){
-                anteparo parte2 = criarAnteparo(getIdAnteparo(a) - 9000, xCruzamento, by, x2, y2, getCorAnteparo(a));
-                inserirLista(novosSegmentos, parte2, 5);
-                setX2Anteparo(a, xCruzamento);
-                setY2Anteparo(a, by);
-            }
-        }
-        it = getProximoLista(it);
-    }
-    iterador itNovos = getPrimeiroLista(novosSegmentos);
-    while(itNovos != NULL){
-        anteparo novo = getFormaLista(itNovos);
-        inserirLista(anteparos, novo, 5);
-        itNovos = getProximoLista(itNovos);
-    }
-    liberarApenasNosLista(novosSegmentos);
-}
-
 void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double bx, double by, char tipoSort, int limite){
     Poligono* pol = (Poligono*)p;
-    anteparo* bordasTemporarias = adicionarBordasTemporarias(listaAnteparos, bx, by, 1000.0);
-    tratarArestasCorte(listaAnteparos, bx, by);
+    anteparo* bordasTemporarias = adicionarBordasTemporarias(listaAnteparos, bx, by, 10.0);
     lista verticesOrdenados = criarListaOrdenadaVertices(listaAnteparos, bx, by, tipoSort, limite);
     arvore segAtivos = criarArvore();
-    iterador it = getPrimeiroLista(listaAnteparos);
-    while (it != NULL) {
-        anteparo a = getFormaLista(it);
-        double x1 = getX1Anteparo(a) - bx;
-        double y1 = getY1Anteparo(a) - by;
-        double x2 = getX2Anteparo(a) - bx;
-        double y2 = getY2Anteparo(a) - by;
-        if ((y1 > 0 && y2 < 0) || (y1 < 0 && y2 > 0)){
-            double xCruzamento = x1 + (x2 - x1) * (0 - y1) / (y2 - y1);
-            if (xCruzamento < 0){
-                double dist = -xCruzamento;
-                inserirArvore(segAtivos, a, dist);
-            }
-        }
-        it = getProximoLista(it);
-    }
     anteparo biombo = getAnteparoArvore(getMenorArvore(segAtivos));
     iterador atual = getPrimeiroLista(verticesOrdenados);
     while (atual != NULL){
