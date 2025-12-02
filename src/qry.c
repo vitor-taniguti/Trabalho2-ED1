@@ -6,6 +6,14 @@
 #include <stdio.h>
 #include <string.h>
 
+void abrirArquivoQry(arquivo *qry, char *caminhoQry){
+    *qry = fopen(caminhoQry, "r");
+    if(*qry == NULL){
+        printf("Erro na abertura do arquivo!\n");
+        exit(1);
+    }
+}
+
 arquivo abrirNovoSVG(char* diretorioSaida, char* nomeBase, char* sufixo) {
     char nomeCompleto[512];
     sprintf(nomeCompleto, "%s/%s-%s.svg", diretorioSaida, nomeBase, sufixo);
@@ -16,26 +24,12 @@ arquivo abrirNovoSVG(char* diretorioSaida, char* nomeBase, char* sufixo) {
     return f;
 }
 
-void logicaSfx(arquivo svg, char* sfx, char* dirSaida, char* nomeGeo, lista anteparos, double x, double y, char tipoSort, int limite){
-    poligono visibilidade = criarPoligono(anteparos, NULL, x, y, tipoSort, limite);
-    if (strcmp(sfx, "-") == 0) {
-        escreverPoligonoSVG(svg, visibilidade, "yellow", "red");
-        fprintf(svg, "\t<circle cx=\"%.2f\" cy=\"%.2f\" r=\"5\" fill=\"red\" />\n", x, y);
-    } else {
-        arquivo svgExtra = abrirNovoSVG(dirSaida, nomeGeo, sfx);
-        if (svgExtra) {
-            escreverPoligonoSVG(svgExtra, visibilidade, "yellow", "red");
-            fecharSVG(svgExtra);
-        }
-    }
-    liberarPoligono(visibilidade);
-}
-
-void abrirArquivoQry(arquivo *qry, char *caminhoQry){
-    *qry = fopen(caminhoQry, "r");
-    if(*qry == NULL){
-        printf("Erro na abertura do arquivo!\n");
-        exit(1);
+void logicaSfx(char* sfx, poligono p, arquivo svg, char* dirSaida, char* nomeGeo){
+    if (strcmp(sfx, "-") == 0){
+        inserirPoligonoSVG(svg, p, "gray", "black");
+    } else{
+        arquivo arquivoSfx = abrirNovoSVG(dirSaida, nomeGeo, sfx);
+        inserirPoligonoSVG(arquivoSfx, p, "gray", "black");
     }
 }
 
@@ -76,7 +70,10 @@ void a(int i, int j, char orientacao, lista listaFormas, lista listaAnteparos, a
 
 void d(double x, double y, char* sfx, lista formas, lista anteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo, char tipoSort, int limite){
     fprintf(txt, "Formas destruídas: \n\n");
-    lista atingidos = obterAlvosAtingidos(x, y, anteparos, formas, tipoSort, limite);
+    poligono visibilidade = criarPoligono();
+    lista atingidos = criarLista();
+    calcularPoligono(visibilidade, anteparos, atingidos, x, y, tipoSort, limite);
+    obterAlvosAtingidos(visibilidade, atingidos, formas);
     iterador atual = getPrimeiroLista(atingidos);
     while (atual != NULL){
         printarDadosForma(txt, getFormaLista(atual), getTipoFormaLista(atual));
@@ -85,14 +82,18 @@ void d(double x, double y, char* sfx, lista formas, lista anteparos, arquivo txt
         removerLista(formas, elementoDestruido);
         atual = proximo;
     }
+    logicaSfx(sfx, visibilidade, svg, dirSaida, nomeGeo);
+    liberarPoligono(visibilidade);
     liberarApenasNosLista(atingidos);
-    logicaSfx(svg, sfx, dirSaida, nomeGeo, anteparos, x, y, tipoSort, limite);
     fprintf(txt, "\n");
 }
 
 void p(double x, double y, char* cor, char* sfx, lista formas, lista anteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo, char tipoSort, int limite){
     fprintf(txt, "Formas pintadas: \n\n");
-    lista atingidos = obterAlvosAtingidos(x, y, anteparos, formas, tipoSort, limite);
+    poligono visibilidade = criarPoligono();
+    lista atingidos = criarLista();
+    calcularPoligono(visibilidade, anteparos, atingidos, x, y, tipoSort, limite);
+    obterAlvosAtingidos(visibilidade, atingidos, formas);
     iterador atual = getPrimeiroLista(atingidos);
     while (atual != NULL){
         printarDadosForma(txt, getFormaLista(atual), getTipoFormaLista(atual));
@@ -104,14 +105,18 @@ void p(double x, double y, char* cor, char* sfx, lista formas, lista anteparos, 
         setCorPForma(formaPintada, tipoFormaPintada, cor);
         atual = proximo;
     }
+    logicaSfx(sfx, visibilidade, svg, dirSaida, nomeGeo);
+    liberarPoligono(visibilidade);
     liberarApenasNosLista(atingidos);
-    logicaSfx(svg, sfx, dirSaida, nomeGeo, anteparos, x, y, tipoSort, limite);
     fprintf(txt, "\n");
 }
 
 void cln(double x, double y, double dx, double dy, char* sfx, lista formas, lista anteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo, char tipoSort, int limite){
     fprintf(txt, "Formas pintadas: \n\n");
-    lista atingidos = obterAlvosAtingidos(x, y, anteparos, formas, tipoSort, limite);
+    poligono visibilidade = criarPoligono();
+    lista atingidos = criarLista();
+    calcularPoligono(visibilidade, anteparos, atingidos, x, y, tipoSort, limite);
+    obterAlvosAtingidos(visibilidade, atingidos, formas);
     iterador atual = getPrimeiroLista(atingidos);
     while (atual != NULL){
         printarDadosForma(txt, getFormaLista(atual), getTipoFormaLista(atual));
@@ -122,8 +127,9 @@ void cln(double x, double y, double dx, double dy, char* sfx, lista formas, list
         inserirLista(formas, clonarForma(formaClonada, tipoFormaClonada, formas, dx, dy), tipoFormaClonada);
         atual = proximo;
     }
+    logicaSfx(sfx, visibilidade, svg, dirSaida, nomeGeo);
+    liberarPoligono(visibilidade);
     liberarApenasNosLista(atingidos);
-    logicaSfx(svg, sfx, dirSaida, nomeGeo, anteparos, x, y, tipoSort, limite);
     fprintf(txt, "\n");
 }
 

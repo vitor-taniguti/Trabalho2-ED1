@@ -1,4 +1,5 @@
 #include "txt.h"
+#include "anteparos.h"
 
 void abrirArquivoTxt(arquivo *saida, char *caminhoTxt){
     *saida = fopen(caminhoTxt, "w");

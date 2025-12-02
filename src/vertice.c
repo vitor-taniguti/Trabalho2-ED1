@@ -82,8 +82,6 @@ lista criarListaOrdenadaVertices(lista listaAnteparos, double x, double y, int t
         double y2 = getY2Anteparo(a);
         double ang1 = atan2(y1-y, x1-x);
         double ang2 = atan2(y2-y, x2-x);
-        ang1 = normalizarAngulo(ang1);
-        ang2 = normalizarAngulo(ang2);
         vertices[i].x = x1;
         vertices[i].y = y1;
         vertices[i].angulo = ang1;
@@ -110,6 +108,7 @@ lista criarListaOrdenadaVertices(lista listaAnteparos, double x, double y, int t
         *v = vertices[i];
         inserirLista(listaVertices, v, 6);
     }
+    free(vertices);
     return listaVertices;
 }
 

@@ -126,11 +126,9 @@ int relamBoundingBox(double pMinX, double pMinY, double pMaxX, double pMaxY, dou
     return 1;
 }
 
-lista obterAlvosAtingidos(double bx, double by, lista anteparos, lista alvos, char tipoSort, int limite){
-    lista listaAtingidos = criarLista();
-    poligono pol = criarPoligono(anteparos, listaAtingidos, bx, by, tipoSort, limite);
+void obterAlvosAtingidos(poligono p, lista atingidos, lista alvos){
     double pMinX, pMinY, pMaxX, pMaxY;
-    getBoundingBoxPoligono(pol, &pMinX, &pMinY, &pMaxX, &pMaxY);
+    getBoundingBoxPoligono(p, &pMinX, &pMinY, &pMaxX, &pMaxY);
     iterador i = getPrimeiroLista(alvos);
     while (i != NULL){
         forma forma = getFormaLista(i); 
@@ -141,22 +139,20 @@ lista obterAlvosAtingidos(double bx, double by, lista anteparos, lista alvos, ch
             int atingiu = 0;
             switch (tipoForma){
                 case 1:
-                    atingiu = colidePoligonoRetangulo(pol, forma);
+                    atingiu = colidePoligonoRetangulo(p, forma);
                     break;
                 case 2: 
-                    atingiu = colidePoligonoCirculo(pol, forma);
+                    atingiu = colidePoligonoCirculo(p, forma);
                     break;
                 case 3:
-                    atingiu = colidePoligonoSegmento(pol, forma, tipoForma);
+                    atingiu = colidePoligonoSegmento(p, forma, tipoForma);
                     break;
                 case 4:
-                    atingiu = colidePoligonoSegmento(pol, forma, tipoForma);
+                    atingiu = colidePoligonoSegmento(p, forma, tipoForma);
                     break;
             }
-            if (atingiu) inserirLista(listaAtingidos, forma, tipoForma);
+            if (atingiu) inserirLista(atingidos, forma, tipoForma);
         }
         i = getProximoLista(i);
     }
-    liberarPoligono(pol);
-    return listaAtingidos;
 }

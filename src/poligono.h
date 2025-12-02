@@ -21,8 +21,7 @@ poligono criarPoligono();
 /// @param by Coordenada Y da bomba
 /// @param tipoSort Char para o tipo de ordenação utilizada ('q' - qsort, 'm' - msort)
 /// @param limite Limite para utilizar o insertion sort
-/// @return Um ponteiro para o polígono criado
-poligono calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double bx, double by, char tipoSort, int limite);
+void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double bx, double by, char tipoSort, int limite);
 
 /// @brief Pega o bounding box do polígono solicitado
 /// @param p Ponteiro para o polígono que o bounding box será pego

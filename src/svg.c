@@ -37,7 +37,6 @@ void inserirTextoSVG(arquivo saida, texto txt, tipoTexto tt){
         case 'f':
             ancora_str = "end";
             break;
-        case 'i':
         default: 
             ancora_str = "start";
             break;
@@ -45,11 +44,11 @@ void inserirTextoSVG(arquivo saida, texto txt, tipoTexto tt){
     fprintf(saida, "<text id=\"%d\" style=\"font-size:%s;font-family:%s;fill:%s;stroke:%s\" y=\"%lf\" x=\"%lf\" text-anchor=\"%s\">%s</text>\n", getIdTexto(txt), getSize(tt), getFamily(tt), getCorPTexto(txt), getCorBTexto(txt), getYtTexto(txt), getXtTexto(txt), ancora_str, getTxtoTexto(txt));
 }
 
-void escreverPoligonoSVG(FILE* svg, poligono p, char* corP, char* corB){
+void inserirPoligonoSVG(arquivo svg, poligono p, char* corP, char* corB){
     if (p == NULL || svg == NULL) return;
     fprintf(svg, "\n\t<polygon points=\"");
     int n = getTotalVerticesPoligono(p);
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < n; i++){
         double x, y;
         getVerticePoligono(p, i, &x, &y);
         fprintf(svg, "%.2f,%.2f ", x, y);

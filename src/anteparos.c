@@ -95,6 +95,20 @@ double getY2Anteparo(anteparo a){
     return ((Anteparo*)a)->y2;
 }
 
+char* getCorAnteparo(anteparo a){
+    return ((Anteparo*)a)->cor;
+}
+
+void setX2Anteparo(anteparo a, double x2){
+    Anteparo* an = ((Anteparo*)a);
+    an->x2 = x2;
+}
+
+void setY2Anteparo(anteparo a, double y2){
+    Anteparo* an = ((Anteparo*)a);
+    an->y2 = y2;
+}
+
 void setCorAnteparo(anteparo a, char* cor){
     Anteparo* an = (Anteparo*)a;
     strcpy(an->cor, cor);

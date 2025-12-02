@@ -22,6 +22,7 @@ anteparo* transformarRetangulo(forma f);
 
 /// @brief Transforma a forma círculo em anteparo
 /// @param f Ponteiro para a forma círculo
+/// @param orientacao Char especificando a orientacao do parâmetro (h-horizontal, v-vertical)
 /// @return Um ponteiro para o anteparo criado
 anteparo transformarCirculo(forma f, char orientacao);
 
@@ -59,6 +60,21 @@ double getX2Anteparo(anteparo a);
 /// @param a Ponteiro para o anteparo que a coordenada será pega
 /// @return Um double com a segunda coordenada Y do anteparo
 double getY2Anteparo(anteparo a);
+
+/// @brief Pega a cor do anteparo
+/// @param a Ponteiro para o anteparo que a cor será pega
+/// @return Uma string com a cor do anteparo
+char* getCorAnteparo(anteparo a);
+
+/// @brief Define a segunda coordenada X do anteparo
+/// @param a Ponteiro para o anteparo que a coordenada será definida
+/// @param x2 Segunda coordenada X do anteparo
+void setX2Anteparo(anteparo a, double x2);
+
+/// @brief Define a segunda coordenada Y do anteparo
+/// @param a Ponteiro para o anteparo que a coordenada será definida
+/// @param x2 Segunda coordenada Y do anteparo
+void setY2Anteparo(anteparo a, double y2);
 
 /// @brief Define a cor do anteparo
 /// @param a Ponteiro para o anteparo que a cor será definida

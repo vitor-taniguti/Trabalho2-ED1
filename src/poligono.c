@@ -1,5 +1,6 @@
 #include "poligono.h"
 #include "geometria.h"
+#include "svg.h"
 #include <float.h>
 
 #define inicio 1
@@ -32,7 +33,7 @@ void adicionarVerticePoligono(poligono p, double x, double y) {
     if (y > pol->maxY) pol->maxY = y;
 }
 
-anteparo* adicionarBordasTemporarias(lista anteparos, double bx, double by, double delta) {
+anteparo* adicionarBordasTemporarias(lista anteparos, double bx, double by, double delta){
     double minX = bx, maxX = bx, minY = by, maxY = by;
     iterador atual = getPrimeiroLista(anteparos);
     while (atual != NULL){
@@ -54,20 +55,68 @@ anteparo* adicionarBordasTemporarias(lista anteparos, double bx, double by, doub
     maxX += delta; 
     maxY += delta;
     anteparo* bordas = malloc(4 * sizeof(anteparo));
-    bordas[0] = criarAnteparo(-1, minX, minY, maxX, minY, "#000000");
-    bordas[1] = criarAnteparo(-2, maxX, minY, maxX, maxY, "#000000");
-    bordas[2] = criarAnteparo(-3, maxX, maxY, minX, maxY, "#000000");
-    bordas[3] = criarAnteparo(-4, minX, maxY, minX, minY, "#000000");
+    bordas[0] = criarAnteparo(-1, maxX, minY, minX, minY, "#000000");
+    bordas[1] = criarAnteparo(-2, minX, minY, minX, maxY, "#000000");
+    bordas[2] = criarAnteparo(-3, minX, maxY, maxX, maxY, "#000000");
+    bordas[3] = criarAnteparo(-4, maxX, maxY, maxX, minY, "#000000");
+
     for(int i=0; i<4; i++) inserirLista(anteparos, bordas[i], 5);
     return bordas;
 }
 
-poligono calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double bx, double by, char tipoSort, int limite){
+void tratarArestasCorte(lista anteparos, double bx, double by){
+    lista novosSegmentos = criarLista();
+    iterador it = getPrimeiroLista(anteparos);
+    while (it != NULL) {
+        anteparo a = getFormaLista(it);
+        double x1 = getX1Anteparo(a);
+        double y1 = getY1Anteparo(a);
+        double x2 = getX2Anteparo(a);
+        double y2 = getY2Anteparo(a);
+        if ((y1 > by && y2 < by) || (y1 < by && y2 > by)){
+            double t = (by - y1) / (y2 - y1);
+            double xCruzamento = x1 + t * (x2 - x1);
+            if (xCruzamento < bx){
+                anteparo parte2 = criarAnteparo(getIdAnteparo(a) - 9000, xCruzamento, by, x2, y2, getCorAnteparo(a));
+                inserirLista(novosSegmentos, parte2, 5);
+                setX2Anteparo(a, xCruzamento);
+                setY2Anteparo(a, by);
+            }
+        }
+        it = getProximoLista(it);
+    }
+    iterador itNovos = getPrimeiroLista(novosSegmentos);
+    while(itNovos != NULL){
+        anteparo novo = getFormaLista(itNovos);
+        inserirLista(anteparos, novo, 5);
+        itNovos = getProximoLista(itNovos);
+    }
+    liberarApenasNosLista(novosSegmentos);
+}
+
+void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double bx, double by, char tipoSort, int limite){
     Poligono* pol = (Poligono*)p;
-    anteparo* bordasTemporarias = adicionarBordasTemporarias(listaAnteparos, bx, by, 10.0);
+    anteparo* bordasTemporarias = adicionarBordasTemporarias(listaAnteparos, bx, by, 1000.0);
+    tratarArestasCorte(listaAnteparos, bx, by);
     lista verticesOrdenados = criarListaOrdenadaVertices(listaAnteparos, bx, by, tipoSort, limite);
     arvore segAtivos = criarArvore();
-    anteparo biombo = NULL; 
+    iterador it = getPrimeiroLista(listaAnteparos);
+    while (it != NULL) {
+        anteparo a = getFormaLista(it);
+        double x1 = getX1Anteparo(a) - bx;
+        double y1 = getY1Anteparo(a) - by;
+        double x2 = getX2Anteparo(a) - bx;
+        double y2 = getY2Anteparo(a) - by;
+        if ((y1 > 0 && y2 < 0) || (y1 < 0 && y2 > 0)){
+            double xCruzamento = x1 + (x2 - x1) * (0 - y1) / (y2 - y1);
+            if (xCruzamento < 0){
+                double dist = -xCruzamento;
+                inserirArvore(segAtivos, a, dist);
+            }
+        }
+        it = getProximoLista(it);
+    }
+    anteparo biombo = getAnteparoArvore(getMenorArvore(segAtivos));
     iterador atual = getPrimeiroLista(verticesOrdenados);
     while (atual != NULL){
         vertice v = getFormaLista(atual);
@@ -94,10 +143,8 @@ poligono calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, dou
             }
             biombo = s; 
         } else{
-            if (s != NULL){
-                vertice vAtual = calcularInterseccao(bx, by, angulo, s);
-                adicionarVerticePoligono(p, getXVertice(vAtual), getYVertice(vAtual));
-                liberarVertice(vAtual);
+            if (s != NULL && getAnteparoVertice(v) == s){
+                adicionarVerticePoligono(p, getXVertice(v), getYVertice(v));
                 if (atingidos != NULL && buscarLista(atingidos, s) == NULL) inserirLista(atingidos, s, 5);
             }
         }
@@ -110,7 +157,6 @@ poligono calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, dou
     free(bordasTemporarias);
     liberarArvore(segAtivos);
     liberarLista(verticesOrdenados);
-    return pol;
 }
 
 void getBoundingBoxPoligono(poligono p, double* minX, double* minY, double* maxX, double* maxY){

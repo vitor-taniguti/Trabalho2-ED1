@@ -11,7 +11,6 @@ typedef struct lin{
 } lin;
 
 linha criarLinha(int i, double x1, double y1, double x2, double y2, char *cor){
-    // DICA: Use calloc em vez de malloc para limpar a struct com zeros
     lin *l = calloc(1, sizeof(lin)); 
     if (l == NULL){
         printf("Erro na alocação de memória da linha!");
@@ -72,7 +71,7 @@ char* getCorCompLinha(linha l){
 }
 
 double calcAreaLinha(linha l){
-    lin *line = ((linha*)l);
+    lin *line = (lin*)l;
     double x1 = line->x1;
     double y1 = line->y1;
     double x2 = line->x2;

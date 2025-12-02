@@ -52,7 +52,7 @@ void inserirTextoSVG(arquivo saida, texto txt, tipoTexto tt);
 /// @param p Ponteiro para o polígono
 /// @param corP Cor de preenchimento do polígono
 /// @param corB Cor de borda do polígono
-void escreverPoligonoSVG(FILE* svg, poligono p, char* corP, char* corB);
+void inserirPoligonoSVG(arquivo svg, poligono p, char* corP, char* corB);
 
 /// @brief Adiciona a tag final do arquivo SVG
 /// @param saida Ponteiro para o arquivo de saída
