@@ -24,12 +24,14 @@ arquivo abrirNovoSVG(char* diretorioSaida, char* nomeBase, char* sufixo) {
     return f;
 }
 
-void logicaSfx(char* sfx, poligono p, arquivo svg, char* dirSaida, char* nomeGeo){
+void logicaSfx(char* sfx, poligono p, arquivo svg, char* dirSaida, char* nomeGeo, double bx, double by){
     if (strcmp(sfx, "-") == 0){
         inserirPoligonoSVG(svg, p, "gray", "black");
+        fprintf(svg, "<circle cx=\"%f\" cy=\"%f\" r=\"3\" stroke=\"black\" fill=\"red\" />\n", bx, by);
     } else{
         arquivo arquivoSfx = abrirNovoSVG(dirSaida, nomeGeo, sfx);
         inserirPoligonoSVG(arquivoSfx, p, "gray", "black");
+        fprintf(arquivoSfx, "<circle cx=\"%f\" cy=\"%f\" r=\"3\" stroke=\"black\" fill=\"red\" />\n", bx, by);
     }
 }
 
@@ -82,7 +84,7 @@ void d(double x, double y, char* sfx, lista formas, lista anteparos, arquivo txt
         removerLista(formas, elementoDestruido);
         atual = proximo;
     }
-    logicaSfx(sfx, visibilidade, svg, dirSaida, nomeGeo);
+    logicaSfx(sfx, visibilidade, svg, dirSaida, nomeGeo, x, y);
     liberarPoligono(visibilidade);
     liberarApenasNosLista(atingidos);
     fprintf(txt, "\n");
@@ -105,7 +107,7 @@ void p(double x, double y, char* cor, char* sfx, lista formas, lista anteparos, 
         setCorPForma(formaPintada, tipoFormaPintada, cor);
         atual = proximo;
     }
-    logicaSfx(sfx, visibilidade, svg, dirSaida, nomeGeo);
+    logicaSfx(sfx, visibilidade, svg, dirSaida, nomeGeo, x, y);
     liberarPoligono(visibilidade);
     liberarApenasNosLista(atingidos);
     fprintf(txt, "\n");
@@ -127,7 +129,7 @@ void cln(double x, double y, double dx, double dy, char* sfx, lista formas, list
         inserirLista(formas, clonarForma(formaClonada, tipoFormaClonada, formas, dx, dy), tipoFormaClonada);
         atual = proximo;
     }
-    logicaSfx(sfx, visibilidade, svg, dirSaida, nomeGeo);
+    logicaSfx(sfx, visibilidade, svg, dirSaida, nomeGeo, x, y);
     liberarPoligono(visibilidade);
     liberarApenasNosLista(atingidos);
     fprintf(txt, "\n");

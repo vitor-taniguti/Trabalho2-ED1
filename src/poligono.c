@@ -103,18 +103,16 @@ void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double 
         double anguloAtual = getAnguloVertice(vPrimeiro);
         while (atual != NULL) {
             vertice v = getFormaLista(atual);
-            if (fabs(getAnguloVertice(v) - anguloAtual) > epsilon) {
-                break; 
-            }
+            if (fabs(getAnguloVertice(v) - anguloAtual) > epsilon) break; 
             anteparo an = getAnteparoVertice(v);
-            if (getTipoVertice(v) == inicio) {
+            if (getTipoVertice(v) == inicio){
                 inserirArvore(segAtivos, an, getDistanciaVertice(v));
-            } else {
+            } else{
                 removerArvore(segAtivos, an);
             }
             atual = getProximoLista(atual);
         }
-        void* noMenor = getMenorArvore(segAtivos); 
+        iterador noMenor = getMenorArvore(segAtivos); 
         anteparo s = NULL;
         if (noMenor != NULL) s = getAnteparoArvore(noMenor);
         if (biomboAnterior != s){
@@ -137,7 +135,7 @@ void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double 
             biomboAnterior = s;
         }
     }
-    for(int i=0; i < 4; i++){
+    for(int i = 0; i < 4; i++){
         iterador atual = buscarLista(listaAnteparos, bordasTemporarias[i]);
         if (atual != NULL) removerLista(listaAnteparos, atual); 
     }

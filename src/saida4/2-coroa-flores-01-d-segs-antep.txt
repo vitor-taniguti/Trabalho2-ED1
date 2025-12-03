@@ -1,0 +1,42 @@
+[*] a 82 88 v
+
+Formas transformadas em anteparo:
+
+Linha - Id: 86
+Linha - Id: 83
+Linha - Id: 84
+Linha - Id: 85
+Linha - Id: 82
+Linha - Id: 88
+Linha - Id: 87
+
+[*] d 200.00 200.00 -
+
+Formas destruídas: 
+
+Anteparo - Id: -4
+Anteparo - Id: 82
+Anteparo - Id: -1
+Anteparo - Id: 83
+Anteparo - Id: 84
+Anteparo - Id: -2
+Anteparo - Id: 86
+Anteparo - Id: -3
+Anteparo - Id: 87
+Anteparo - Id: 88
+Anteparo - Id: -4
+Texto - Id: 94
+Texto - Id: 91
+Texto - Id: 89
+Círculo - Id: 75
+Texto - Id: 93
+Círculo - Id: 76
+Texto - Id: 92
+Círculo - Id: 78
+Círculo - Id: 79
+Texto - Id: 95
+Círculo - Id: 81
+Círculo - Id: 77
+Círculo - Id: 80
+Texto - Id: 90
+
