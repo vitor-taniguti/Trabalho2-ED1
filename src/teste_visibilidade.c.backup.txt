@@ -6,7 +6,7 @@ int main(){
     lista formas = criarLista();
     lista anteparos = criarLista();
     retangulo r = criarRetangulo(1, 0.0, 0.0, 200.0, 200.0, "#000000", "#FFFFFF");
-    circulo c = criarCirculo(2, 100.0, 100.0, 25.0, "#000000", "#FFFFFF");
+    circulo c = criarCirculo(3, 100.0, 100.0, 25.0, "#000000", "#FFFFFF");
     inserirLista(formas, r, 1);
     inserirLista(formas, c, 2);
     anteparo* antRet = transformarRetangulo(r);
@@ -21,7 +21,7 @@ int main(){
     inicializarSVG(svg);
     calcularPoligono(visibilidade, anteparos, atingidos, 50.0, 100.0, 'm', 10);
     inserirPoligonoSVG(svg, visibilidade, "gray", "black");
-    circulo bomba = criarCirculo(3, 50.0, 100.0, 5.0, "black", "red");
+    circulo bomba = criarCirculo(4, 50.0, 100.0, 5.0, "black", "red");
     inserirCirculoSVG(svg, bomba);
     liberarCirculo(bomba);
     liberarPoligono(visibilidade);

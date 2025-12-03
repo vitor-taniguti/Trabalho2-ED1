@@ -137,7 +137,7 @@ int getMaiorIdLista(lista l){
         if (id > maior){
             maior = id;
         }
-        atual = getProximoLista(atual);
+        atual = atual->prox;
     }
     return maior;
 }

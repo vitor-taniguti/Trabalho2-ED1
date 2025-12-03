@@ -5,6 +5,7 @@
 
 #define inicio 1
 #define fim 2
+#define epsilon 1e-9
 
 typedef struct{
     lista vertices;
@@ -55,53 +56,86 @@ anteparo* adicionarBordasTemporarias(lista anteparos, double bx, double by, doub
     maxX += delta; 
     maxY += delta;
     anteparo* bordas = malloc(4 * sizeof(anteparo));
-    bordas[0] = criarAnteparo(-1, maxX, minY, minX, minY, "#000000");
-    bordas[1] = criarAnteparo(-2, minX, minY, minX, maxY, "#000000");
-    bordas[2] = criarAnteparo(-3, minX, maxY, maxX, maxY, "#000000");
-    bordas[3] = criarAnteparo(-4, maxX, maxY, maxX, minY, "#000000");
+    bordas[0] = criarAnteparo(-1, maxX, maxY, minX, maxY, "#000000");
+    bordas[1] = criarAnteparo(-2, minX, maxY, minX, minY, "#000000");
+    bordas[2] = criarAnteparo(-3, minX, minY, maxX, minY, "#000000");
+    bordas[3] = criarAnteparo(-4, maxX, minY, maxX, maxY, "#000000");
 
-    for(int i=0; i<4; i++) inserirLista(anteparos, bordas[i], 5);
+    for(int i=0; i < 4; i++) inserirLista(anteparos, bordas[i], 5);
     return bordas;
 }
 
+void tratarAnteparosIniciais(lista anteparos, double bx, double by){
+    lista novosAnteparos = criarLista(); 
+    iterador atual = getPrimeiroLista(anteparos);
+    while (atual != NULL){
+        iterador proximo = getProximoLista(atual);
+        anteparo a = getFormaLista(atual);
+        vertice v = calcularInterseccao(bx, by, 0.0, a);
+        if (v != NULL){
+            int id = getIdAnteparo(a);
+            double x = getXVertice(v);
+            double y = getYVertice(v);
+            inserirLista(novosAnteparos, criarAnteparo(id, getX1Anteparo(a), getY1Anteparo(a), x, y, "black"), 5);
+            inserirLista(novosAnteparos, criarAnteparo(id, x, y, getX2Anteparo(a), getY2Anteparo(a), "black"), 5);
+            removerLista(anteparos, atual);
+        }
+        atual = proximo;
+    }
+    iterador itNovos = getPrimeiroLista(novosAnteparos);
+    while(itNovos != NULL){
+        anteparo novoAnt = getFormaLista(itNovos);
+        inserirLista(anteparos, novoAnt, 5);
+        itNovos = getProximoLista(itNovos);
+    }
+    liberarApenasNosLista(novosAnteparos); 
+}
+
 void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double bx, double by, char tipoSort, int limite){
-    Poligono* pol = (Poligono*)p;
     anteparo* bordasTemporarias = adicionarBordasTemporarias(listaAnteparos, bx, by, 10.0);
+    tratarAnteparosIniciais(listaAnteparos, bx, by);
     lista verticesOrdenados = criarListaOrdenadaVertices(listaAnteparos, bx, by, tipoSort, limite);
     arvore segAtivos = criarArvore();
-    anteparo biombo = NULL;
     iterador atual = getPrimeiroLista(verticesOrdenados);
-    while (atual != NULL){
-        vertice v = getFormaLista(atual);
-        anteparo an = getAnteparoVertice(v);
-        double angulo = getAnguloVertice(v);
-        if (getTipoVertice(v) == inicio){ 
-            inserirArvore(segAtivos, an, getDistanciaVertice(v));
-        } else{
-            removerArvore(segAtivos, an);
+    anteparo biomboAnterior = NULL;
+    while (atual != NULL) {
+        vertice vPrimeiro = getFormaLista(atual);
+        double anguloAtual = getAnguloVertice(vPrimeiro);
+        while (atual != NULL) {
+            vertice v = getFormaLista(atual);
+            if (fabs(getAnguloVertice(v) - anguloAtual) > epsilon) {
+                break; 
+            }
+            anteparo an = getAnteparoVertice(v);
+            if (getTipoVertice(v) == inicio) {
+                inserirArvore(segAtivos, an, getDistanciaVertice(v));
+            } else {
+                removerArvore(segAtivos, an);
+            }
+            atual = getProximoLista(atual);
         }
-        anteparo s = getAnteparoArvore(getMenorArvore(segAtivos));      
-        if (biombo != s){
-            if (biombo != NULL){
-                vertice v1 = calcularInterseccao(bx, by, angulo, biombo);
-                adicionarVerticePoligono(p, getXVertice(v1), getYVertice(v1));
-                liberarVertice(v1);
-                if (buscarLista(atingidos, biombo) == NULL) inserirLista(atingidos, biombo, 5);
+        void* noMenor = getMenorArvore(segAtivos); 
+        anteparo s = NULL;
+        if (noMenor != NULL) s = getAnteparoArvore(noMenor);
+        if (biomboAnterior != s){
+            if (biomboAnterior != NULL){
+                vertice v1 = calcularInterseccao(bx, by, anguloAtual, biomboAnterior);
+                if (v1 != NULL){
+                    adicionarVerticePoligono(p, getXVertice(v1), getYVertice(v1));
+                    liberarVertice(v1);
+                    if (buscarLista(atingidos, biomboAnterior) == NULL) inserirLista(atingidos, biomboAnterior, 5);
+                }
             }
             if (s != NULL){
-                vertice v2 = calcularInterseccao(bx, by, angulo, s);
-                adicionarVerticePoligono(p, getXVertice(v2), getYVertice(v2));
-                liberarVertice(v2);
-                if (buscarLista(atingidos, s) == NULL) inserirLista(atingidos, s, 5);
+                vertice v2 = calcularInterseccao(bx, by, anguloAtual, s);
+                if (v2 != NULL){
+                    adicionarVerticePoligono(p, getXVertice(v2), getYVertice(v2));
+                    liberarVertice(v2);
+                    if (buscarLista(atingidos, s) == NULL) inserirLista(atingidos, s, 5);
+                }
             }
-            biombo = s; 
-        } else{
-            if (s != NULL && getAnteparoVertice(v) == s){
-                adicionarVerticePoligono(p, getXVertice(v), getYVertice(v));
-                if (buscarLista(atingidos, s) == NULL) inserirLista(atingidos, s, 5);
-            }
+            biomboAnterior = s;
         }
-        atual = getProximoLista(atual);
     }
     for(int i=0; i < 4; i++){
         iterador atual = buscarLista(listaAnteparos, bordasTemporarias[i]);
