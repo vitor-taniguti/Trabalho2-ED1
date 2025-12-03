@@ -69,7 +69,7 @@ void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double 
     anteparo* bordasTemporarias = adicionarBordasTemporarias(listaAnteparos, bx, by, 10.0);
     lista verticesOrdenados = criarListaOrdenadaVertices(listaAnteparos, bx, by, tipoSort, limite);
     arvore segAtivos = criarArvore();
-    anteparo biombo = getAnteparoArvore(getMenorArvore(segAtivos));
+    anteparo biombo = NULL;
     iterador atual = getPrimeiroLista(verticesOrdenados);
     while (atual != NULL){
         vertice v = getFormaLista(atual);
@@ -86,24 +86,24 @@ void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double 
                 vertice v1 = calcularInterseccao(bx, by, angulo, biombo);
                 adicionarVerticePoligono(p, getXVertice(v1), getYVertice(v1));
                 liberarVertice(v1);
-                if (atingidos != NULL && buscarLista(atingidos, biombo) == NULL) inserirLista(atingidos, biombo, 5);
+                if (buscarLista(atingidos, biombo) == NULL) inserirLista(atingidos, biombo, 5);
             }
             if (s != NULL){
                 vertice v2 = calcularInterseccao(bx, by, angulo, s);
                 adicionarVerticePoligono(p, getXVertice(v2), getYVertice(v2));
                 liberarVertice(v2);
-                if (atingidos != NULL && buscarLista(atingidos, s) == NULL) inserirLista(atingidos, s, 5);
+                if (buscarLista(atingidos, s) == NULL) inserirLista(atingidos, s, 5);
             }
             biombo = s; 
         } else{
             if (s != NULL && getAnteparoVertice(v) == s){
                 adicionarVerticePoligono(p, getXVertice(v), getYVertice(v));
-                if (atingidos != NULL && buscarLista(atingidos, s) == NULL) inserirLista(atingidos, s, 5);
+                if (buscarLista(atingidos, s) == NULL) inserirLista(atingidos, s, 5);
             }
         }
         atual = getProximoLista(atual);
     }
-    for(int i=0; i<4; i++){
+    for(int i=0; i < 4; i++){
         iterador atual = buscarLista(listaAnteparos, bordasTemporarias[i]);
         if (atual != NULL) removerLista(listaAnteparos, atual); 
     }

@@ -109,6 +109,7 @@ lista criarListaOrdenadaVertices(lista listaAnteparos, double x, double y, int t
         Vertice* v = criarVertice();
         *v = vertices[i];
         inserirLista(listaVertices, v, 6);
+        printf("%d - Ângulo: %lf, Tipo: %d, Distância: %lf, X: %lf, Y: %lf\n", i+1, v->angulo, v->tipo, v->distancia, v->x, v->y);
     }
     free(vertices);
     return listaVertices;
