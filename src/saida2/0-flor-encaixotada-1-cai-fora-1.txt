@@ -1,0 +1,17 @@
+[*] a 12 12 v
+
+Formas transformadas em anteparo:
+
+Retângulo - Id: 12
+
+[*] d 138.00 144.00 -
+
+Formas destruídas: 
+
+Anteparo - Id: -3999
+Anteparo - Id: -2
+Anteparo - Id: 12003
+Anteparo - Id: 12002
+Anteparo - Id: -3
+Anteparo - Id: -4000
+

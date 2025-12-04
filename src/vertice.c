@@ -59,6 +59,11 @@ void setYVertice(vertice v, double y){
     ver->y = y;
 }
 
+void setDistanciaVertice(vertice v, double distancia){
+    Vertice* ver = (Vertice*)v;
+    ver->distancia = distancia;
+}
+
 int compararVertices(const void* a, const void* b){
     Vertice* v1 = (Vertice*) a;
     Vertice* v2 = (Vertice*) b;
@@ -115,11 +120,14 @@ lista criarListaOrdenadaVertices(lista listaAnteparos, double x, double y, int t
         msort(vertices, 2*tamanhoLista, sizeof(Vertice), compararVertices, limite);
     }
     lista listaVertices = criarLista();
+    printf("Vértices ordenados:\n\n");
     for (int k = 0; k < 2*tamanhoLista; k++){
         Vertice* v = criarVertice();
         *v = vertices[k];
         inserirLista(listaVertices, v, 6);
-        printf("%d - Ângulo: %lf, Tipo: %d, Distância: %lf, X: %lf, Y: %lf, Id anteparo: %d\n", k+1, v->angulo, v->tipo, v->distancia, v->x, v->y, getIdAnteparo(v->an));
+        printf("%d - Ângulo: %lf, X: %lf, Y: %lf, Distância: %lf, Id anteparo: %d, Tipo: ", k+1, v->angulo, v->x, v->y, v->distancia,  getIdAnteparo(v->an));
+        if (v->tipo == inicio) printf("Início\n");
+        else printf("Fim\n");
     }
     free(vertices);
     return listaVertices;

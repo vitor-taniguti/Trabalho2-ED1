@@ -28,10 +28,10 @@ anteparo* transformarRetangulo(forma f){
     double w = getWRetangulo(f);
     double h = getHRetangulo(f);
     char* cor = getCorBRetangulo(f);
-    arrayAnteparos[0] = (Anteparo*) criarAnteparo(id, x, y, x+w, y, cor);
-    arrayAnteparos[1] = (Anteparo*) criarAnteparo(id, x+w, y, x+w, y+h, cor);
-    arrayAnteparos[2] = (Anteparo*) criarAnteparo(id, x, y+h, x+w, y+h, cor);
-    arrayAnteparos[3] = (Anteparo*) criarAnteparo(id, x, y, x, y+h, cor);
+    arrayAnteparos[0] = (Anteparo*) criarAnteparo(id*1000+1, x, y+h, x+w, y+h, cor);
+    arrayAnteparos[1] = (Anteparo*) criarAnteparo(id*1000+2, x, y, x, y+h, cor);
+    arrayAnteparos[2] = (Anteparo*) criarAnteparo(id*1000+3, x, y, x+w, y, cor);
+    arrayAnteparos[3] = (Anteparo*) criarAnteparo(id*1000+4, x+w, y, x+w, y+h, cor);
     return arrayAnteparos;
 }
 

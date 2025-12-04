@@ -32,6 +32,7 @@ vertice calcularInterseccao(double bx, double by, double angulo, anteparo a){
         vertice v = criarVertice();
         setXVertice(v, bx + (dx_raio * t));
         setYVertice(v, by + (dy_raio * t));
+        setDistanciaVertice(v, t);
         return v;
     }
     return NULL;

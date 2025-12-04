@@ -76,8 +76,8 @@ void tratarAnteparosIniciais(lista anteparos, double bx, double by){
             int id = getIdAnteparo(a);
             double x = getXVertice(v);
             double y = getYVertice(v);
-            inserirLista(novosAnteparos, criarAnteparo(id, getX1Anteparo(a), getY1Anteparo(a), x, y, "black"), 5);
-            inserirLista(novosAnteparos, criarAnteparo(id, x, y, getX2Anteparo(a), getY2Anteparo(a), "black"), 5);
+            inserirLista(novosAnteparos, criarAnteparo(id*1000+1, getX1Anteparo(a), getY1Anteparo(a), x, y, "black"), 5);
+            inserirLista(novosAnteparos, criarAnteparo(id*1000+2, x, y, getX2Anteparo(a), getY2Anteparo(a), "black"), 5);
             removerLista(anteparos, atual);
         }
         atual = proximo;
@@ -98,12 +98,14 @@ void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double 
     arvore segAtivos = criarArvore();
     iterador atual = getPrimeiroLista(verticesOrdenados);
     anteparo biomboAnterior = NULL;
-    while (atual != NULL) {
+    int i = 1;
+    printf("\nMontagem do polígono iniciada:\n\n");
+    while (atual != NULL){
         vertice vPrimeiro = getFormaLista(atual);
         double anguloAtual = getAnguloVertice(vPrimeiro);
         while (atual != NULL) {
             vertice v = getFormaLista(atual);
-            if (fabs(getAnguloVertice(v) - anguloAtual) > epsilon) break; 
+            if (fabs(getAnguloVertice(v) - anguloAtual) > epsilon) break;
             anteparo an = getAnteparoVertice(v);
             if (getTipoVertice(v) == inicio){
                 inserirArvore(segAtivos, an, getDistanciaVertice(v));
@@ -112,10 +114,22 @@ void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double 
             }
             atual = getProximoLista(atual);
         }
-        iterador noMenor = getMenorArvore(segAtivos); 
+        printf("%d - Anteparo atual: ", i);
+        if (biomboAnterior != NULL){
+            printf("%d. ", getIdAnteparo(biomboAnterior));
+        } else{
+            printf("Nenhum. ");
+        }
+        i++;
+        iterador noMenor = getMenorArvore(segAtivos);
         anteparo s = NULL;
         if (noMenor != NULL) s = getAnteparoArvore(noMenor);
         if (biomboAnterior != s){
+            if (s != NULL){
+                printf("Houve mudança, novo anteparo : %d\n", getIdAnteparo(s));
+            } else{
+                printf("Houve mudança, novo anteparo: Nenhum\n");
+            }
             if (biomboAnterior != NULL){
                 vertice v1 = calcularInterseccao(bx, by, anguloAtual, biomboAnterior);
                 if (v1 != NULL){
@@ -133,11 +147,22 @@ void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double 
                 }
             }
             biomboAnterior = s;
+        } else{
+            if (biomboAnterior != NULL){
+                printf("Não houve mudança, anteparo atual: %d\n", getIdAnteparo(biomboAnterior));
+                vertice vQuina = calcularInterseccao(bx, by, anguloAtual, biomboAnterior); 
+                if (vQuina != NULL){
+                    adicionarVerticePoligono(p, getXVertice(vQuina), getYVertice(vQuina));
+                    liberarVertice(vQuina);
+                }
+            } else{
+                printf("Não houve mudança, anteparo atual: Nenhum\n");
+            }
         }
     }
     for(int i = 0; i < 4; i++){
         iterador atual = buscarLista(listaAnteparos, bordasTemporarias[i]);
-        if (atual != NULL) removerLista(listaAnteparos, atual); 
+        if (atual != NULL) removerLista(listaAnteparos, atual);
     }
     free(bordasTemporarias);
     liberarArvore(segAtivos);

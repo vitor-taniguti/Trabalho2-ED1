@@ -51,6 +51,11 @@ void setXVertice(vertice v, double x);
 /// @param x Nova coordenada Y do vértice
 void setYVertice(vertice v, double y);
 
+/// @brief Define a distância do vértice
+/// @param v Ponteiro para o vértice
+/// @param distancia Nova distância do vértice
+void setDistanciaVertice(vertice v, double distancia);
+
 /// @brief Cria uma lista ordenada dos vértices com relação ao ângulo
 /// @param listaAnteparos Lista de anteparos 
 /// @param x Coordenada X da bomba
