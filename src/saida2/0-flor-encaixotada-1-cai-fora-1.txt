@@ -8,10 +8,6 @@ Retângulo - Id: 12
 
 Formas destruídas: 
 
-Anteparo - Id: -3999
-Anteparo - Id: -2
-Anteparo - Id: 12003
-Anteparo - Id: 12002
-Anteparo - Id: -3
-Anteparo - Id: -4000
+Anteparo - Id: 12001
+Anteparo - Id: 12004
 

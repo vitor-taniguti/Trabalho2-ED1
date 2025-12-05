@@ -80,8 +80,15 @@ void d(double x, double y, char* sfx, lista formas, lista anteparos, arquivo txt
     while (atual != NULL){
         printarDadosForma(txt, getFormaLista(atual), getTipoFormaLista(atual));
         iterador proximo = getProximoLista(atual);
-        iterador elementoDestruido = buscarLista(formas, getFormaLista(atual));
-        removerLista(formas, elementoDestruido);
+        int tipoFormaDestruida = getTipoFormaLista(atual);
+        iterador elementoDestruido;
+        if (tipoFormaDestruida != 5){
+            elementoDestruido = buscarLista(formas, getFormaLista(atual));
+            removerLista(formas, elementoDestruido);
+        } else{
+            elementoDestruido = buscarLista(anteparos, getFormaLista(atual));
+            removerLista(anteparos, elementoDestruido);
+        }
         atual = proximo;
     }
     logicaSfx(sfx, visibilidade, svg, dirSaida, nomeGeo, x, y);
@@ -101,10 +108,12 @@ void p(double x, double y, char* cor, char* sfx, lista formas, lista anteparos, 
         printarDadosForma(txt, getFormaLista(atual), getTipoFormaLista(atual));
         iterador proximo = getProximoLista(atual);
         iterador elementoPintado = buscarLista(formas, getFormaLista(atual));
-        forma formaPintada = getFormaLista(elementoPintado);
-        int tipoFormaPintada = getTipoFormaLista(elementoPintado);
-        setCorBForma(formaPintada, tipoFormaPintada, cor);
-        setCorPForma(formaPintada, tipoFormaPintada, cor);
+        if (elementoPintado != NULL) {
+            forma formaPintada = getFormaLista(elementoPintado);
+            int tipoFormaPintada = getTipoFormaLista(elementoPintado);
+            setCorBForma(formaPintada, tipoFormaPintada, cor);
+            setCorPForma(formaPintada, tipoFormaPintada, cor);
+        }
         atual = proximo;
     }
     logicaSfx(sfx, visibilidade, svg, dirSaida, nomeGeo, x, y);
@@ -114,7 +123,7 @@ void p(double x, double y, char* cor, char* sfx, lista formas, lista anteparos, 
 }
 
 void cln(double x, double y, double dx, double dy, char* sfx, lista formas, lista anteparos, arquivo txt, arquivo svg, char* dirSaida, char* nomeGeo, char tipoSort, int limite){
-    fprintf(txt, "Formas pintadas: \n\n");
+    fprintf(txt, "Formas clonadas: \n\n");
     poligono visibilidade = criarPoligono();
     lista atingidos = criarLista();
     calcularPoligono(visibilidade, anteparos, atingidos, x, y, tipoSort, limite);
@@ -124,9 +133,12 @@ void cln(double x, double y, double dx, double dy, char* sfx, lista formas, list
         printarDadosForma(txt, getFormaLista(atual), getTipoFormaLista(atual));
         iterador proximo = getProximoLista(atual);
         iterador elementoClonado = buscarLista(formas, getFormaLista(atual));
-        forma formaClonada = getFormaLista(elementoClonado);
-        int tipoFormaClonada = getTipoFormaLista(elementoClonado);
-        inserirLista(formas, clonarForma(formaClonada, tipoFormaClonada, formas, dx, dy), tipoFormaClonada);
+        if (elementoClonado != NULL){
+            forma formaClonada = getFormaLista(elementoClonado);
+            int tipoFormaClonada = getTipoFormaLista(elementoClonado);
+            if (tipoFormaClonada != 5) inserirLista(formas, clonarForma(formaClonada, tipoFormaClonada, formas, dx, dy), tipoFormaClonada);
+            else inserirLista(anteparos, clonarForma(formaClonada, tipoFormaClonada, formas, dx, dy), tipoFormaClonada);
+        }
         atual = proximo;
     }
     logicaSfx(sfx, visibilidade, svg, dirSaida, nomeGeo, x, y);

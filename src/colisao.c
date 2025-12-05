@@ -135,7 +135,7 @@ void obterAlvosAtingidos(poligono p, lista atingidos, lista alvos){
         int tipoForma = getTipoFormaLista(i);
         double fMinX, fMinY, fMaxX, fMaxY;
         getBoundingBoxForma(forma, tipoForma, &fMinX, &fMinY, &fMaxX, &fMaxY);
-        if (relamBoundingBox(pMinX, pMinY, pMaxX, pMaxY, fMinX, fMinY, fMaxX, fMaxY)) {
+        if (relamBoundingBox(pMinX, pMinY, pMaxX, pMaxY, fMinX, fMinY, fMaxX, fMaxY)){
             int atingiu = 0;
             switch (tipoForma){
                 case 1:

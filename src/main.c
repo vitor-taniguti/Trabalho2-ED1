@@ -104,10 +104,13 @@ int main(int argc, char *argv[]) {
     if (temQry){
         lerArquivoQry(qry, txt, svgQry, listaFormas, listaAnteparos, dirSaida, nomeArquivoGeo, tipoSort, limite);
         passarPelaLista(listaFormas, svgQry, tt);
+        passarPelaLista(listaAnteparos, svgQry, tt);
         fecharSVG(svgQry);
     }
 
     liberarTipoTexto(tt);
+    liberarLista(listaFormas);
+    liberarLista(listaAnteparos);
 
     if (geo) fclose(geo);
     if (qry) fclose(qry);

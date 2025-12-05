@@ -1,0 +1,49 @@
+[*] a 75 81 h
+
+Formas transformadas em anteparo:
+
+Círculo - Id: 75
+Círculo - Id: 76
+Círculo - Id: 78
+Círculo - Id: 79
+Círculo - Id: 81
+Círculo - Id: 77
+Círculo - Id: 80
+
+[*] p 200.00 200.00 #ff6600 -
+
+Formas pintadas: 
+
+Anteparo - Id: 75
+Anteparo - Id: 76
+Anteparo - Id: 77
+Anteparo - Id: 78
+Anteparo - Id: 79
+Anteparo - Id: 80
+Anteparo - Id: 81
+Linha - Id: 8
+Linha - Id: 86
+Linha - Id: 83
+Texto - Id: 94
+Texto - Id: 91
+Linha - Id: 84
+Linha - Id: 6
+Texto - Id: 89
+Retângulo - Id: 45
+Círculo - Id: 10
+Texto - Id: 93
+Linha - Id: 85
+Linha - Id: 82
+Texto - Id: 14
+Linha - Id: 88
+Círculo - Id: 9
+Círculo - Id: 11
+Texto - Id: 13
+Texto - Id: 92
+Texto - Id: 12
+Texto - Id: 95
+Retângulo - Id: 5
+Linha - Id: 7
+Linha - Id: 87
+Texto - Id: 90
+

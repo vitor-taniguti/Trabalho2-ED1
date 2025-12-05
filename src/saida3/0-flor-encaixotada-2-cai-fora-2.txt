@@ -4,15 +4,19 @@ Formas transformadas em anteparo:
 
 Retângulo - Id: 12
 
-[*] d 40.00 40.00 -
+[*] d 138.00 144.00 -
 
 Formas destruídas: 
 
-Anteparo - Id: 12004002
 Anteparo - Id: 12001
+Anteparo - Id: 12004
+
+[*] d 138.00 144.00 -
+
+Formas destruídas: 
+
 Anteparo - Id: 12002
 Anteparo - Id: 12003
-Anteparo - Id: 12004001
 Retângulo - Id: 5
 Linha - Id: 6
 Linha - Id: 7

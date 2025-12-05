@@ -13,8 +13,11 @@ arvore criarArvore();
 /// @brief Insere, de forma ordenada e recursiva, o anteparo na árvore
 /// @param ar Ponteiro para a árvore que o anteparo será inserido
 /// @param an Ponteiro para o anteparo que será inserido
-/// @param distancia Distancia do anteparo ao ponto de explosão
-void inserirArvore(arvore ar, anteparo an, double distancia);
+/// @param bx Coordenada X da bomba
+/// @param by Coordenada Y da bomba
+/// @param angulo Angulo atual em relação à bomba
+/// @param distanciaDoEvento Distância em relação ao evento atual
+void inserirArvore(arvore ar, anteparo an, double bx, double by, double angulo, double distanciaDoEvento);
 
 /// @brief Pega o elemento com a menor distância em relação à outro elemento
 /// @param i Ponteiro para o elemento que a distância será comparada
@@ -45,11 +48,6 @@ void removerArvore(arvore ar, anteparo an);
 /// @param i Ponteiro para o elemento que o anteparo será pego
 /// @return Ponteiro para o anteparo pego
 anteparo getAnteparoArvore(iterador i);
-
-/// @brief Pega a distância do elemento solicitado
-/// @param i Ponteiro para o elemento que a distância será pego
-/// @return Um double com a distância do elemento
-double getDistanciaArvore(iterador i);
 
 /// @brief Libera toda a memória alocada para a construção da árvore
 /// @param ar Ponteiro para a árvore que será liberada

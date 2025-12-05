@@ -4,7 +4,7 @@
 void abrirArquivoTxt(arquivo *saida, char *caminhoTxt){
     *saida = fopen(caminhoTxt, "w");
     if (*saida == NULL){
-        printf("Falha na alocação de memória!");
+        printf("Falha na alocação de memória! Na abertura do arquivo .txt\n");
         exit(1);
     }
 }

@@ -69,10 +69,11 @@ int compararVertices(const void* a, const void* b){
     Vertice* v2 = (Vertice*) b;
     if (v1->angulo < v2->angulo) return -1;
     if (v1->angulo > v2->angulo) return 1;
-    if (v1->angulo == v2->angulo){
-        if (v1->tipo < v2->tipo) return -1;
-        if (v1->tipo > v2->tipo) return 1;
+    if (v1->tipo != v2->tipo){
+        return (v1->tipo == inicio) ? -1 : 1; 
     }
+    if (v1->distancia < v2->distancia) return -1;
+    if (v1->distancia > v2->distancia) return 1;
     return 0;
 }
 
@@ -93,10 +94,10 @@ lista criarListaOrdenadaVertices(lista listaAnteparos, double x, double y, int t
         if (fabs(ang2) < 1e-9) ang2 = 0.0;
         ang1 = normalizarAngulo(ang1);
         ang2 = normalizarAngulo(ang2);
-        if (ang1 > 1.5 * pi && ang2 < epsilon) {
+        if (ang1 > 1.5 * pi && ang2 < epsilon){
             ang2 = 2 * pi;
         }
-        else if (ang2 > 1.5 * pi && ang1 < epsilon) {
+        else if (ang2 > 1.5 * pi && ang1 < epsilon){
             ang1 = 2 * pi;
         }
         vertices[i].x = x1;
@@ -120,7 +121,7 @@ lista criarListaOrdenadaVertices(lista listaAnteparos, double x, double y, int t
         msort(vertices, 2*tamanhoLista, sizeof(Vertice), compararVertices, limite);
     }
     lista listaVertices = criarLista();
-    printf("Vértices ordenados:\n\n");
+    printf("\nVértices ordenados:\n\n");
     for (int k = 0; k < 2*tamanhoLista; k++){
         Vertice* v = criarVertice();
         *v = vertices[k];

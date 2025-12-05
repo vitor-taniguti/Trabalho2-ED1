@@ -79,6 +79,7 @@ void tratarAnteparosIniciais(lista anteparos, double bx, double by){
             inserirLista(novosAnteparos, criarAnteparo(id*1000+1, getX1Anteparo(a), getY1Anteparo(a), x, y, "black"), 5);
             inserirLista(novosAnteparos, criarAnteparo(id*1000+2, x, y, getX2Anteparo(a), getY2Anteparo(a), "black"), 5);
             removerLista(anteparos, atual);
+            liberarVertice(v);
         }
         atual = proximo;
     }
@@ -92,7 +93,7 @@ void tratarAnteparosIniciais(lista anteparos, double bx, double by){
 }
 
 void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double bx, double by, char tipoSort, int limite){
-    anteparo* bordasTemporarias = adicionarBordasTemporarias(listaAnteparos, bx, by, 10.0);
+    anteparo* bordasTemporarias = adicionarBordasTemporarias(listaAnteparos, bx, by, 100.0);
     tratarAnteparosIniciais(listaAnteparos, bx, by);
     lista verticesOrdenados = criarListaOrdenadaVertices(listaAnteparos, bx, by, tipoSort, limite);
     arvore segAtivos = criarArvore();
@@ -103,24 +104,27 @@ void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double 
     while (atual != NULL){
         vertice vPrimeiro = getFormaLista(atual);
         double anguloAtual = getAnguloVertice(vPrimeiro);
-        while (atual != NULL) {
+        int tocouBiomboAtual = 0;
+        while (atual != NULL){
             vertice v = getFormaLista(atual);
             if (fabs(getAnguloVertice(v) - anguloAtual) > epsilon) break;
             anteparo an = getAnteparoVertice(v);
+            if (biomboAnterior != NULL && an == biomboAnterior) {
+                tocouBiomboAtual = 1;
+            }
             if (getTipoVertice(v) == inicio){
-                inserirArvore(segAtivos, an, getDistanciaVertice(v));
+                inserirArvore(segAtivos, an, bx, by, anguloAtual, getDistanciaVertice(v));
             } else{
                 removerArvore(segAtivos, an);
             }
             atual = getProximoLista(atual);
         }
-        printf("%d - Anteparo atual: ", i);
+        printf("%d - Ângulo: %lf | ", i++, anguloAtual);
         if (biomboAnterior != NULL){
             printf("%d. ", getIdAnteparo(biomboAnterior));
         } else{
             printf("Nenhum. ");
         }
-        i++;
         iterador noMenor = getMenorArvore(segAtivos);
         anteparo s = NULL;
         if (noMenor != NULL) s = getAnteparoArvore(noMenor);
@@ -135,7 +139,7 @@ void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double 
                 if (v1 != NULL){
                     adicionarVerticePoligono(p, getXVertice(v1), getYVertice(v1));
                     liberarVertice(v1);
-                    if (buscarLista(atingidos, biomboAnterior) == NULL) inserirLista(atingidos, biomboAnterior, 5);
+                    if (buscarLista(atingidos, biomboAnterior) == NULL && getIdAnteparo(biomboAnterior) >= 0) inserirLista(atingidos, biomboAnterior, 5);
                 }
             }
             if (s != NULL){
@@ -143,26 +147,32 @@ void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double 
                 if (v2 != NULL){
                     adicionarVerticePoligono(p, getXVertice(v2), getYVertice(v2));
                     liberarVertice(v2);
-                    if (buscarLista(atingidos, s) == NULL) inserirLista(atingidos, s, 5);
+                    if (buscarLista(atingidos, s) == NULL && getIdAnteparo(s) >= 0) inserirLista(atingidos, s, 5);
+                } else{
+                    adicionarVerticePoligono(p, getXVertice(vPrimeiro), getYVertice(vPrimeiro));
+                    if (buscarLista(atingidos, s) == NULL && getIdAnteparo(s) >= 0) inserirLista(atingidos, s, 5);
                 }
             }
             biomboAnterior = s;
         } else{
             if (biomboAnterior != NULL){
-                printf("Não houve mudança, anteparo atual: %d\n", getIdAnteparo(biomboAnterior));
-                vertice vQuina = calcularInterseccao(bx, by, anguloAtual, biomboAnterior); 
-                if (vQuina != NULL){
-                    adicionarVerticePoligono(p, getXVertice(vQuina), getYVertice(vQuina));
-                    liberarVertice(vQuina);
+                if (tocouBiomboAtual){
+                    printf("Quina detectada no anteparo %d.\n", getIdAnteparo(biomboAnterior));
+                    adicionarVerticePoligono(p, getXVertice(vPrimeiro), getYVertice(vPrimeiro));
+                } else {
+                    printf("Evento ignorado (oculto atrás do anteparo %d).\n", getIdAnteparo(biomboAnterior));
                 }
-            } else{
-                printf("Não houve mudança, anteparo atual: Nenhum\n");
+            } else {
+                printf("Continua no vazio.\n");
             }
         }
     }
-    for(int i = 0; i < 4; i++){
-        iterador atual = buscarLista(listaAnteparos, bordasTemporarias[i]);
-        if (atual != NULL) removerLista(listaAnteparos, atual);
+    atual = getPrimeiroLista(listaAnteparos);
+    while (atual != NULL){
+        iterador proximo = getProximoLista(atual);
+        anteparo a = getFormaLista(atual);
+        if (getIdAnteparo(a) < 0) removerLista(listaAnteparos, atual);
+        atual = proximo;
     }
     free(bordasTemporarias);
     liberarArvore(segAtivos);

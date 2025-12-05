@@ -1,10 +1,12 @@
 #include "arvore.h"
+#include "vertice.h"
+#include "geometria.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <float.h>
 
 typedef struct elemento{
     anteparo an;
-    double distancia;
     struct elemento* e;
     struct elemento* d;
 } Elemento;
@@ -21,26 +23,50 @@ arvore criarArvore(){
     return ar;
 }
 
-Elemento* inserirRecursivo(Elemento* no, anteparo an, double distancia){
+double calcularDistanciaFutura(double bx, double by, double angulo, anteparo an){
+    double anguloFuturo = angulo + 0.0001; 
+    vertice v = calcularInterseccao(bx, by, anguloFuturo, an);
+    if (v != NULL){
+        double dist = getDistanciaVertice(v);
+        liberarVertice(v);
+        return dist;
+    }
+    return 999999999.0;
+}
+
+Elemento* inserirRecursivo(Elemento* no, anteparo an, double bx, double by, double angulo, double distNovoFixa){
     if (no == NULL){
-        Elemento* novo = malloc(sizeof(Elemento));
+        Elemento* novo = (Elemento*) malloc(sizeof(Elemento));
         novo->an = an;
-        novo->distancia = distancia;
         novo->e = NULL;
         novo->d = NULL;
         return novo;
     }
-    if (distancia < no->distancia){
-        no->e = inserirRecursivo(no->e, an, distancia);
-    } else{
-        no->d = inserirRecursivo(no->d, an, distancia);
+    double distNovo = distNovoFixa;
+    vertice vNo = calcularInterseccao(bx, by, angulo, no->an);
+    double distNo = (vNo != NULL) ? getDistanciaVertice(vNo) : 999999999.0;
+    if (vNo != NULL) liberarVertice(vNo);
+    if (fabs(distNovo - distNo) < 0.00001) {
+        double distNovoFutura = calcularDistanciaFutura(bx, by, angulo, an);
+        double distNoFutura = calcularDistanciaFutura(bx, by, angulo, no->an);
+        if (distNovoFutura < distNoFutura){
+            no->e = inserirRecursivo(no->e, an, bx, by, angulo, distNovoFixa);
+        } else {
+            no->d = inserirRecursivo(no->d, an, bx, by, angulo, distNovoFixa);
+        }
+    } 
+    else if (distNovo < distNo){
+        no->e = inserirRecursivo(no->e, an, bx, by, angulo, distNovoFixa);
+    } 
+    else {
+        no->d = inserirRecursivo(no->d, an, bx, by, angulo, distNovoFixa);
     }
     return no;
 }
 
-void inserirArvore(arvore ar, anteparo an, double distancia){
+void inserirArvore(arvore ar, anteparo an, double bx, double by, double angulo, double distanciaDoEvento){
     Arvore* arv = (Arvore*)ar;
-    arv->r = inserirRecursivo(arv->r, an, distancia);
+    arv->r = inserirRecursivo(arv->r, an, bx, by, angulo, distanciaDoEvento);
 }
 
 iterador getMenorRecursivo(iterador i){
@@ -81,7 +107,6 @@ Elemento* removerRecursivo(Elemento* raiz, anteparo an){
         }
         Elemento* temp = getMenorRecursivo(raiz->d);
         raiz->an= temp->an;
-        raiz->distancia = temp->distancia; 
         raiz->d = removerRecursivo(raiz->d, temp->an);
     } else{
         Elemento* novaEsq = removerRecursivo(raiz->e, an);        
@@ -106,10 +131,6 @@ anteparo getAnteparoArvore(iterador i){
     return ((Elemento*)i)->an;
 }
 
-double getDistanciaArvore(iterador i){
-    return ((Elemento*)i)->distancia;
-}
-
 void liberarRecursivo(iterador i){
     Elemento* no = (Elemento*)i;
     if (no->e != NULL) liberarRecursivo(no->e);
@@ -119,7 +140,7 @@ void liberarRecursivo(iterador i){
 
 void liberarArvore(arvore ar){
     Arvore* a = (Arvore*)ar;
-    if (a->r == NULL) return;
-    liberarRecursivo(a->r);
-    free(a);
+    if (a == NULL) return; 
+    if (a->r != NULL) liberarRecursivo(a->r);
+    free(a); 
 }

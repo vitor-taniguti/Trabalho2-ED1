@@ -24,7 +24,7 @@ typedef struct{
 lista criarLista(){
     Lista *l = malloc(sizeof(Lista));
     if (l == NULL){
-        printf("Falha na alocação de memória!");
+        printf("Falha na alocação de memória! Na criação da lista!\n");
         exit(1);
     }
     l->topo = NULL;
@@ -37,7 +37,7 @@ void inserirLista(lista l, forma forma, int tipoForma){
     Lista *lista = ((Lista*)l);
     Elemento *novoElemento = (Elemento*) malloc(sizeof(Elemento));
     if (novoElemento == NULL){
-        printf("Falha na alocação de memória!");
+        printf("Falha na alocação de memória! Na inserição na lista\n");
         exit(1);
     }
     novoElemento->forma = forma;
