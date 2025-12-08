@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     char nomeArquivoGeo[FILE_NAME_LEN] = "";
     char nomeArquivoQry[FILE_NAME_LEN] = "";
     char tipoSort = 'q';
-    int temGeo = 0, temSaida = 0, temQry = 0, limite = 0;
+    int temGeo = 0, temSaida = 0, temQry = 0, limite = 10;
 
     for (int i = 1; i < argc; i++){
         if (strcmp(argv[i], "-e") == 0 && i + 1 < argc){
@@ -39,7 +39,7 @@ int main(int argc, char *argv[]) {
             char* val = argv[++i];
             if (strcmp(val, "m") == 0) tipoSort = 'm';
             else tipoSort = 'q';
-        } else if (strcmp(argv[i], "-in") == 0 && i + 1 < argc){
+        } else if (strcmp(argv[i], "-i") == 0 && i + 1 < argc){
             limite = atoi(argv[++i]);
         } else{
             fprintf(stderr, "Parâmetro desconhecido ou inválido: %s\n", argv[i]);
@@ -63,11 +63,11 @@ int main(int argc, char *argv[]) {
     
     combinacaoNomeArquivo(nomeArquivoGeo, NULL, baseNomeGeo, sizeof(baseNomeGeo));
 
-    char arquivoSaidaSvgGeo[PATH_LEN + FILE_NAME_LEN];
+    char arquivoSaidaSvgGeo[PATH_LEN + FILE_NAME_LEN + 16];
     snprintf(arquivoSaidaSvgGeo, sizeof(arquivoSaidaSvgGeo), "%s/%s.svg", dirSaida, baseNomeGeo);
 
-    char arquivoSaidaSvgQry[PATH_LEN + FILE_NAME_LEN];
-    char arquivoSaidaTxt[PATH_LEN + FILE_NAME_LEN];
+    char arquivoSaidaSvgQry[PATH_LEN + FILE_NAME_LEN + 16];
+    char arquivoSaidaTxt[PATH_LEN + FILE_NAME_LEN + 16];
 
     if (temQry){
         combinacaoNomeArquivo(nomeArquivoGeo, nomeArquivoQry, baseNomeCombinado, sizeof(baseNomeCombinado));

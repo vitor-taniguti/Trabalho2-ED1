@@ -32,6 +32,8 @@ void logicaSfx(char* sfx, poligono p, arquivo svg, char* dirSaida, char* nomeGeo
         arquivo arquivoSfx = abrirNovoSVG(dirSaida, nomeGeo, sfx);
         inserirPoligonoSVG(arquivoSfx, p, "gray", "black");
         fprintf(arquivoSfx, "<circle cx=\"%f\" cy=\"%f\" r=\"3\" stroke=\"black\" fill=\"red\" />\n", bx, by);
+        fecharSVG(arquivoSfx);
+        fclose(arquivoSfx);
     }
 }
 

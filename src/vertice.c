@@ -126,7 +126,7 @@ lista criarListaOrdenadaVertices(lista listaAnteparos, double x, double y, int t
         Vertice* v = criarVertice();
         *v = vertices[k];
         inserirLista(listaVertices, v, 6);
-        printf("%d - Ângulo: %lf, X: %lf, Y: %lf, Distância: %lf, Id anteparo: %d, Tipo: ", k+1, v->angulo, v->x, v->y, v->distancia,  getIdAnteparo(v->an));
+        printf("%d - Ângulo: %lf, X: %lf, Y: %lf, Distância: %lf, Id anteparo: %d, Tipo: ", k+1, (v->angulo/pi)*180, v->x, v->y, v->distancia,  getIdAnteparo(v->an));
         if (v->tipo == inicio) printf("Início\n");
         else printf("Fim\n");
     }

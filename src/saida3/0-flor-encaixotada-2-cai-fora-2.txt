@@ -4,14 +4,14 @@ Formas transformadas em anteparo:
 
 Retângulo - Id: 12
 
-[*] d 138.00 144.00 -
+[*] d 138.00 144.00 bomba1
 
 Formas destruídas: 
 
 Anteparo - Id: 12001
 Anteparo - Id: 12004
 
-[*] d 138.00 144.00 -
+[*] d 138.00 144.00 bomba2
 
 Formas destruídas: 
 

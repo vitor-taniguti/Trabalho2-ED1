@@ -5,6 +5,7 @@
 
 #define inicio 1
 #define fim 2
+#define pi 3.14159265358979323846 
 #define epsilon 1e-9
 
 typedef struct{
@@ -93,7 +94,7 @@ void tratarAnteparosIniciais(lista anteparos, double bx, double by){
 }
 
 void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double bx, double by, char tipoSort, int limite){
-    anteparo* bordasTemporarias = adicionarBordasTemporarias(listaAnteparos, bx, by, 100.0);
+    anteparo* bordasTemporarias = adicionarBordasTemporarias(listaAnteparos, bx, by, 300.0);
     tratarAnteparosIniciais(listaAnteparos, bx, by);
     lista verticesOrdenados = criarListaOrdenadaVertices(listaAnteparos, bx, by, tipoSort, limite);
     arvore segAtivos = criarArvore();
@@ -119,7 +120,7 @@ void calcularPoligono(poligono p, lista listaAnteparos, lista atingidos, double 
             }
             atual = getProximoLista(atual);
         }
-        printf("%d - Ângulo: %lf | ", i++, anguloAtual);
+        printf("%d - Ângulo: %lf | ", i++, (anguloAtual/pi)*180);
         if (biomboAnterior != NULL){
             printf("%d. ", getIdAnteparo(biomboAnterior));
         } else{
