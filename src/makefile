@@ -13,8 +13,16 @@ CFLAGS = -std=c99 -fstack-protector-all -Wall -Wextra -O0 -g -ggdb
 SRC_DIR = .
 BUILD_DIR = ./build
 
-# Lista de arquivos de origem e objetos
-SRCS = $(wildcard $(SRC_DIR)/*.c)
+# 1. Pega TODOS os arquivos .c
+ALL_SRCS = $(wildcard $(SRC_DIR)/*.c)
+
+# 2. Identifica os arquivos de teste (que têm main duplicada)
+TEST_SRCS = $(wildcard $(SRC_DIR)/teste_visibilidade_*.c)
+
+# 3. Cria a lista final removendo os testes da lista total
+SRCS = $(filter-out $(TEST_SRCS), $(ALL_SRCS))
+
+# Gera a lista de objetos baseada apenas nos arquivos filtrados
 OBJS = $(patsubst $(SRC_DIR)/%.c, $(BUILD_DIR)/%.o, $(SRCS))
 
 # Regra padrão
