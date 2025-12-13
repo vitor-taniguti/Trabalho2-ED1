@@ -38,7 +38,7 @@ void logicaSfx(char* sfx, poligono p, arquivo svg, char* dirSaida, char* nomeGeo
 }
 
 void a(int i, int j, char orientacao, lista listaFormas, lista listaAnteparos, arquivo txt){
-    fprintf(txt, "Formas transformadas em anteparo:\n\n");
+    fprintf(txt, "\nFormas transformadas em anteparo:\n\n");
     iterador atual = getPrimeiroLista(listaFormas);
     while (atual != NULL){
         forma f = getFormaLista(atual);
